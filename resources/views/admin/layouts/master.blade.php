@@ -52,30 +52,34 @@
                         <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
                     </div>
                     <h4 class="name">john doe</h4>
-                    <a href="#">Sign out</a>
+                    <form action="{{ route('logout.user') }}" method="POST">
+                        @csrf
+                        <button type="submit" class=" btn btn-outline-dark">Sign out</button>
+                    </form>
+
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow text-decoration-none" href="index.html">
+                            <a class="js-arrow text-decoration-none" href="{{ route('admin.dashboard') }}">
                                 <i class="fa-regular fa-folder "></i>Dashboard
                             </a>
 
                         </li>
                         <li class="active has-sub">
-                            <a class="js-arrow text-decoration-none" href="reversation.html">
+                            <a class="js-arrow text-decoration-none" href="{{ route('admin.reservation') }}">
                                 <i class="fa-solid fa-calendar-days"></i>Reversation
                             </a>
 
                         </li>
                         <li class="active has-sub">
-                            <a class="js-arrow text-decoration-none" href="manage-rooms.html">
+                            <a class="js-arrow text-decoration-none" href="{{ route('admin.rooms') }}">
                                 <i class="fa-solid fa-hotel"></i>Manage Rooms
                             </a>
 
                         </li>
                         <li class="active has-sub">
-                            <a class="js-arrow text-decoration-none" href="employee-manage.html">
+                            <a class="js-arrow text-decoration-none" href="{{ route('admin.staff') }}">
                                 <i class="fa-solid fa-people-roof"></i>Manage Staffs
                             </a>
 
@@ -208,7 +212,10 @@
                             <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
                         </div>
                         <h4 class="name">john doe</h4>
-                        <a href="#">Sign out</a>
+                        <form action="{{ route('login.user') }}" method="POST">
+                            @csrf
+                            <button type="submit" >Sign out</button>
+                        </form>
                     </div>
                     <nav class="navbar-sidebar2">
                         <ul class="list-unstyled navbar__list">

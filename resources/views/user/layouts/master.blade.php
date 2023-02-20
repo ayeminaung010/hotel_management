@@ -78,9 +78,37 @@
                             </div>
                             <div class="col-xl-2 col-lg-2">
                                 <!-- header-btn -->
-                                <div class="header-btn">
-                                    <a href="#" class="btn btn1 d-none d-lg-block ">Book Online</a>
-                                </div>
+                                @if (Auth::check())
+                                    @if (Auth::user()->role == 'user')
+                                        <div class="header-btn">
+                                            <!-- Example single danger button -->
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{ Auth::user()->name }}
+                                            </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                                    <li><a class="dropdown-item" href="#">Password Change</a></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <form action="{{ route('logout.user') }}" method="POST">
+                                                            @csrf
+                                                            <button class="dropdown-item" >Logout</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="header-btn">
+                                            <a href="{{ url('/login') }}" class="btn btn1 d-none d-lg-block ">Login </a>
+                                        </div>
+                                    @endif
+                                @else
+                                    <div class="header-btn">
+                                        <a href="{{ url('/login') }}" class="btn btn1 d-none d-lg-block ">Login</a>
+                                    </div>
+                                @endif
                             </div>
                             <!-- Mobile Menu -->
                             <div class="col-12">
