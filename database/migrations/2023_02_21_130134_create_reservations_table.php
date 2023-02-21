@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+
             $table->foreignId('room_type_id')->constrained();
             $table->string('check_in');
             $table->string('check_out');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->bigInteger('phone_no');
+            $table->string('email');
+            $table->foreignId('card_type_id')->constrained('i_d_card_types');
+            $table->string('card_number')->nullable();
+            $table->string('residential_address');
             $table->integer('number_of_guest');
             $table->integer('number_of_child');
             $table->bigInteger('total_cost');

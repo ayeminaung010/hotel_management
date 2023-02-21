@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('i_d_card_types', function (Blueprint $table) {
             $table->id();
-            $table->string('room_no');
-            $table->foreignId('room_type_id')->constrained();
-            $table->enum('booking_status', [0, 1])->default(0);
-            $table->bigInteger('price_per_night');
+            $table->string('card_type');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('i_d_card_types');
     }
 };

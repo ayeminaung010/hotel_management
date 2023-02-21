@@ -28,7 +28,16 @@ Route::prefix('user')->group(function () {
 
 Route::prefix('admin')->middleware('admin_middleweare')->group(function () {
     Route::get('/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
+
+    // reservation
     Route::get('/reservation',[ReservationController::class,'show'])->name('admin.reservation');
+
+    // axios
+    Route::get('/room_number/get',[ReservationController::class,'getNumber'])->name('room_no');
+
+    //rooms
     Route::get('/rooms-manage',[RoomController::class,'show'])->name('admin.rooms');
+
+    //employee manage
     Route::get('/staff-manage',[StaffController::class,'show'])->name('admin.staff');
 });

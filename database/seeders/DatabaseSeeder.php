@@ -5,8 +5,11 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\StaffSeeder;
+use Database\Seeders\CardTypeSeeder;
 use Database\Seeders\PositionSeeder;
 use Database\Seeders\RoomTypeSeeder;
+use Database\Seeders\WorkingTimeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +24,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PositionSeeder::class,
             RoomTypeSeeder::class,
+            RoomsSeeder::class,
+            WorkingTimeSeeder::class,
+            StaffSeeder::class,
+            CardTypeSeeder::class,
         ]);
     }
 }

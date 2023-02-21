@@ -35,6 +35,8 @@
     <!-- Main CSS-->
     <link href="{{ asset('admin/css/theme.css') }}" rel="stylesheet" media="all">
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 </head>
 
 <body class="animsition">
@@ -372,6 +374,7 @@
 
     <!-- Main JS-->
     <script src="{{ asset('admin/js/main.js') }}"></script>
+    @yield('js')
 
 </body>
 
