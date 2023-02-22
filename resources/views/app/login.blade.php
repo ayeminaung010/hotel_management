@@ -3,21 +3,26 @@
 @section('content')
 <div class="page-content--bge5">
     <div class="container">
-        @if(session('wrongPassword'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>{{ session('wrongPassword') }}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        @endif
-        @if(session('notFound'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>{{ session('notFound') }}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        @endif
         <div class="login-wrap">
 
             <div class="login-content">
+                @if(session('wrongPassword'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ session('wrongPassword') }}</strong>
+                        <button type="button" class="btn-close align-middle" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                @endif
+                @if(session('notFound'))
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{ session('notFound') }}</strong>
+                        <button type="button" class="btn-close align-middle" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                @endif
+
                 <div class="login-logo">
                     <a href="#">
                         <img src="{{ asset('admin/images/icon/logo-blue.png') }}" alt="CoolAdmin">

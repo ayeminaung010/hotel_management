@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('room_no');
             $table->foreignId('room_type_id')->constrained();
             $table->enum('booking_status', [0, 1])->default(0);
-            $table->bigInteger('price_per_night');
             $table->timestamps();
         });
     }

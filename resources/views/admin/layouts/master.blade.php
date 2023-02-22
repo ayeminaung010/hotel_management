@@ -11,7 +11,7 @@
 
     <!-- Title Page-->
     <title>Hotel Management</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
     <!-- Fontfaces CSS-->
     <link href="{{ asset('admin/css/font-face.css') }}" rel="stylesheet" media="all">
     <link href="{{ asset('admin/vendor/font-awesome-5/css/fontawesome-all.min.css') }}" rel="stylesheet" media="all">
@@ -36,7 +36,7 @@
     <link href="{{ asset('admin/css/theme.css') }}" rel="stylesheet" media="all">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
 </head>
 
 <body class="animsition">
@@ -62,35 +62,34 @@
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
-                        <li class="active has-sub">
+                        <li class="@if( Route::currentRouteName() === 'admin.dashboard' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.dashboard') }}">
                                 <i class="fa-regular fa-folder "></i>Dashboard
                             </a>
 
                         </li>
-                        <li class="active has-sub">
+                        <li class="@if( Route::currentRouteName() === 'admin.reservation' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.reservation') }}">
                                 <i class="fa-solid fa-calendar-days"></i>Reversation
                             </a>
 
                         </li>
-                        <li class="active has-sub">
+                        <li class="@if( Route::currentRouteName() === 'admin.rooms' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.rooms') }}">
                                 <i class="fa-solid fa-hotel"></i>Manage Rooms
                             </a>
 
                         </li>
-                        <li class="active has-sub">
+                        <li class="@if( Route::currentRouteName() === 'admin.staff' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.staff') }}">
                                 <i class="fa-solid fa-people-roof"></i>Manage Staffs
                             </a>
 
                         </li>
-                        <li class="active has-sub">
+                        <li class=" has-sub">
                             <a class="js-arrow text-decoration-none" href="complaints.html">
                                 <i class="fa-solid fa-comments"></i>Manage Complaints
                             </a>
-
                         </li>
                     </ul>
                 </nav>

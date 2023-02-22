@@ -25,7 +25,6 @@ class RoomsSeeder extends Seeder
             Rooms::create([
                 'room_no' => $room_no,
                 'room_type_id' => $room_type_ids[array_rand($room_type_ids)],
-                'price_per_night' => rand(200,1500),
             ]);
         }
     }

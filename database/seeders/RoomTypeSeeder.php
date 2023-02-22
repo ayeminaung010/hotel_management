@@ -138,7 +138,8 @@ class RoomTypeSeeder extends Seeder
         foreach($rooms as $room){
             RoomType::create([
                 'name' => $room['name'],
-                'description' => $room['description']
+                'description' => $room['description'],
+                'price_per_night' => rand(200,1500),
             ]);
         }
     }
