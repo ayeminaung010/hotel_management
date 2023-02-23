@@ -79,6 +79,32 @@ class ReservationController extends Controller
     //index
     public function index(){
         $reservations = Reservation::get();
-        return view('admin.reservation.list',compact('reservations'));
+        $reservationRoomTypes = [];
+        $reservationRoomNos = [];
+
+        foreach ($reservations as $reservation) {
+            $roomTypeIds = json_decode($reservation->room_type_id);
+            $roomIds = json_decode($reservation->room_id);
+            $roomTypes = [];
+            $roomId_arr = [];
+
+            foreach ($roomTypeIds as $roomTypeId) {
+                $roomType = RoomType::find($roomTypeId);
+                if ($roomType) {
+                    $roomTypes[] = $roomType;
+                }
+            }
+
+            foreach ($roomIds as $roomId) {
+                $room_id = Rooms::find($roomId);
+                if ($room_id) {
+                    $roomId_arr[] = $room_id;
+                }
+            }
+
+            $reservationRoomTypes[$reservation->id] = $roomTypes;
+            $reservationRoomNos[$reservation->id] = $roomId_arr;
+        }
+        return view('admin.reservation.list',compact('reservations','reservationRoomTypes','reservationRoomNos'));
     }
 }

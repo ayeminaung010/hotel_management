@@ -102,7 +102,7 @@
                                                 <td  >
                                                     <div class="rs-select2--trans rs-select2--sm">
                                                         <select class="js-select2" name="property">
-                                                            <option value="0"  @selected($room->booking_status === '0')>Book</option>
+                                                            <option value="0"  @selected($room->booking_status === '0')>Available</option>
                                                             <option value="1"  @selected($room->booking_status === '1')>Booked</option>
                                                         </select>
                                                         <div class="dropDownSelect2"></div>
@@ -111,6 +111,8 @@
                                                 <td >
                                                     @if ($room->booking_status === '1')
                                                         <a href="#" class=" btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkIn{{ $room->id }}">Check In</a>
+                                                    @else
+                                                        <a href="#" class=" btn btn-info" data-bs-toggle="modal" data-bs-target="#checkIn{{ $room->id }}">Check In</a>
                                                     @endif
                                                 </td>
                                                 <td >

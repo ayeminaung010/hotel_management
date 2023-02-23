@@ -14,7 +14,7 @@ class WorkingTimeSeeder extends Seeder
      */
     public function run(): void
     {
-        $work_date = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+        $work_date = ['8 AM - 12 AM','1 PM - 5 PM','5 PM - 9 PM','9 AM - 5AM',' 5AM - 8 AM ','Monday' , 'Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
         foreach($work_date as $working){
             WorkingTime::create([

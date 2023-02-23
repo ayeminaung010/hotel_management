@@ -82,11 +82,8 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="rs-select2--trans rs-select2--sm">
-                                                        <select class="js-select2" name="property">
-                                                                <option selected="selected">{{ $staff->position->name }}</option>
-                                                        </select>
-                                                        {{-- <div class="dropDownSelect2"></div> --}}
+                                                    <div class="rs-select2--trans rs-select2--sm text-info">
+                                                        {{ $staff->position->name }}
                                                     </div>
                                                 </td>
                                                 <td>
