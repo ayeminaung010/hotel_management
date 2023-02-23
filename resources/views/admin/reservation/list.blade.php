@@ -17,11 +17,12 @@
                                 <li class="list-inline-item seprate">
                                     <span>/</span>
                                 </li>
-                                <li class="list-inline-item">Manage Staffs</li>
+                                <li class="list-inline-item">Reservation Lists</li>
                             </ul>
                         </div>
-                        <button class="au-btn au-btn-icon au-btn--green">
-                            <i class="zmdi zmdi-plus"></i>add employee</button>
+                        <a href="{{ route('admin.reservation') }}"  class=" btn btn-primary text-black" type="submit">
+                            <i class="zmdi zmdi-plus"></i>add Reservation
+                        </a>
                     </div>
                 </div>
             </div>
@@ -34,10 +35,11 @@
 <section >
     <!-- rooom detail  -->
     <div class="row justify-content-center mt-5">
+
         <div class="col-lg-11">
             <form action="" method="post" novalidate="novalidate">
                 <div class="card">
-                    <div class="card-header">Manage Rooms</div>
+                    <div class="card-header">Manage Reservations</div>
                     <div class="row">
                         <div class="col-xl-12">
                             <!-- USER DATA-->
@@ -64,42 +66,42 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <td>Employee Name</td>
-                                                <td>Staff</td>
-                                                <td>Work Time</td>
-                                                <td>Joining Date</td>
-                                                <td>Salary</td>
-                                                <td>Change Shift</td>
+                                                <td>Name</td>
+                                                <td>Email</td>
+                                                <td>Phone</td>
+                                                <td>Number Of Guest</td>
+                                                <td>Number Of Child</td>
+                                                <td>Booking Date</td>
                                                 <td>Action</td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($staffs as  $staff)
+                                            @foreach ($reservations as  $reservation)
                                             <tr>
                                                 <td>
-                                                    <div class="table-data__info">
-                                                        <h6>{{ $staff->name }}</h6>
+                                                    {{-- <div class="table-data__info">
+                                                        <h6>{{ $reservation->first_name.' '.$reservation->last_name }}</h6>
+                                                    </div> --}}
+                                                    <div class="">
+                                                        <span class="">{{ $reservation->first_name.' '.$reservation->last_name }}</span>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="rs-select2--trans rs-select2--sm">
-                                                        <select class="js-select2" name="property">
-                                                                <option selected="selected">{{ $staff->position->name }}</option>
-                                                        </select>
-                                                        {{-- <div class="dropDownSelect2"></div> --}}
+                                                    <div class=" ">
+                                                        <span class="text-black-50">{{ $reservation->email }}</span>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span class="">{{ $staff->workingTime->working_date }}</span>
+                                                    <span class="">{{ $reservation->phone }}</span>
                                                 </td>
                                                 <td>
-                                                    <span class="">{{ $staff->created_at->format('d-m-Y') }}</span>
+                                                    <span class="">{{ $reservation->number_of_guest }}</span>
                                                 </td>
                                                 <td>
-                                                    <span class="">{{ $staff->salary }} $</span>
+                                                    <span class="">{{ $reservation->number_of_child }} </span>
                                                 </td>
                                                 <td>
-                                                    <button class=" btn btn-warning">Change Work Time</button>
+                                                    <span class="">{{ $reservation->created_at->format('d-M-Y') }} </span>
                                                 </td>
                                                 <td>
                                                     <button class=" btn btn-outline-secondary edit">

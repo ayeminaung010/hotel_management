@@ -32,6 +32,7 @@ Route::prefix('admin')->middleware('admin_middleweare')->group(function () {
     // reservation
     Route::get('/reservation',[ReservationController::class,'show'])->name('admin.reservation');
     Route::post('/reservation/create',[ReservationController::class,'create'])->name('reservation.create');
+    Route::get('/reservation/list',[ReservationController::class,'index'])->name('reservation.index');
 
     // axios
     Route::get('/room_number/get',[ReservationController::class,'getNumber'])->name('room_no');

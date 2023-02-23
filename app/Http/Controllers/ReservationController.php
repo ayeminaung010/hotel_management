@@ -75,4 +75,10 @@ class ReservationController extends Controller
             return back()->with(['error' => 'Reservation Failed!....']);
         }
     }
+
+    //index
+    public function index(){
+        $reservations = Reservation::get();
+        return view('admin.reservation.list',compact('reservations'));
+    }
 }

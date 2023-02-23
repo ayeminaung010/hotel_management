@@ -23,6 +23,9 @@
                 </div>
             @endif
 
+            <a href="{{ route('reservation.index') }}" class="my-3 btn btn-info">
+                Lists
+            </a>
             <form action="{{ route('reservation.create') }}" method="POST" novalidate="novalidate">
                 @csrf
                 <div class="card">

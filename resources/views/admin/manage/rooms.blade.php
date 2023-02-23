@@ -46,17 +46,18 @@
                                 <div class="filters m-b-45">
                                     <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
                                         <select class="js-select2" name="property">
-                                            <option selected="selected">All Properties</option>
-                                            <option value="">Products</option>
-                                            <option value="">Services</option>
+                                            <option value="">All Booking</option>
+                                            <option value="0">Book</option>
+                                            <option value="1">Booked</option>
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                     </div>
-                                    <div class="rs-select2--dark rs-select2--sm rs-select2--border">
-                                        <select class="js-select2 au-select-dark" name="time">
-                                            <option selected="selected">All Time</option>
-                                            <option value="">By Month</option>
-                                            <option value="">By Day</option>
+                                    <div class="rs-select2--dark rs-select2--md rs-select2--border">
+                                        <select class="js-select2" name="property">
+                                            <option value="">All Room Types</option>
+                                            @foreach ($roomType as $type)
+                                                <option value="">{{ $type->name }}</option>
+                                            @endforeach
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                     </div>
@@ -80,6 +81,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($rooms  as $room )
                                             <tr>
                                                 <td>
                                                     <label class="au-checkbox">
@@ -89,48 +91,97 @@
                                                 </td>
                                                 <td>
                                                     <div class="table-data__info">
-                                                        <h6>lori lynch</h6>
                                                         <span>
-                                                            <a href="#">johndoe@gmail.com</a>
+                                                            <a href="#">{{ $room->room_no }}</a>
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <span class="role admin">admin</span>
+                                                <td class=" w-25">
+                                                    <span class="">{{ $room->roomType->name }}</span>
                                                 </td>
-                                                <td>
+                                                <td  >
                                                     <div class="rs-select2--trans rs-select2--sm">
                                                         <select class="js-select2" name="property">
-                                                            <option selected="selected">Full Control</option>
-                                                            <option value="">Post</option>
-                                                            <option value="">Watch</option>
+                                                            <option value="0"  @selected($room->booking_status === '0')>Book</option>
+                                                            <option value="1"  @selected($room->booking_status === '1')>Booked</option>
                                                         </select>
                                                         <div class="dropDownSelect2"></div>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <button class=" btn btn-warning">Check In</button>
+                                                <td >
+                                                    @if ($room->booking_status === '1')
+                                                        <a href="#" class=" btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkIn{{ $room->id }}">Check In</a>
+                                                    @endif
                                                 </td>
-                                                <td>
-                                                    <button class=" btn btn-warning">Check Out</button>
+                                                <td >
+                                                    @if ($room->booking_status === '1')
+                                                        <a href="#" class=" btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkOut{{ $room->id }}">Check Out</a>
+                                                    @endif
                                                 </td>
-                                                <td>
-                                                    <button class=" btn btn-outline-secondary edit">
+                                                <td >
+                                                    <a href="#" class=" btn btn-outline-secondary edit">
                                                         <i class="fa-solid fa-pen-to-square"></i>
-                                                    </button>
-                                                    <button class=" btn btn-outline-secondary edit">
+                                                    </a>
+                                                    <a href="#" class=" btn btn-outline-secondary edit">
                                                         <i class="fa-solid fa-eye"></i>
-                                                    </button>
-                                                    <button class=" btn btn-outline-secondary edit">
+                                                    </a>
+                                                    <a href="#" class=" btn btn-outline-secondary edit">
                                                         <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
+                                                    </a>
                                                 </td>
                                             </tr>
+                                            {{-- check in box  --}}
+                                            <div class="modal fade" id="checkIn{{ $room->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -  ' . $room->roomType->name }}</h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <form>
+                                                        <div class="mb-3">
+                                                          <label for="recipient-name" class="col-form-label">Check In</label>
+                                                          <input type="text" class="form-control" id="recipient-name">
+                                                        </div>
+                                                      </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                      <button type="button" class="btn btn-primary text-primary">Submit</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              {{-- check out modal  --}}
+                                              <div class="modal fade" id="checkOut{{ $room->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -  ' . $room->roomType->name }}</h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <form>
+                                                        <div class="mb-3">
+                                                          <label for="recipient-name" class="col-form-label">Check Out</label>
+                                                          <input type="text" class="form-control" id="recipient-name">
+                                                        </div>
+                                                      </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                      <button type="button" class="btn btn-primary text-primary">Submit</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="user-data__footer">
-                                    <button class="au-btn au-btn-load">load more</button>
+                                    <a href="#" class="au-btn au-btn-load">load more</a>
                                 </div>
                             </div>
                             <!-- END USER DATA-->
@@ -138,6 +189,7 @@
 
                     </div>
                 </div>
+
 
                 <div class=" text-end">
                     <button class=" btn btn-primary">Submit</button>
