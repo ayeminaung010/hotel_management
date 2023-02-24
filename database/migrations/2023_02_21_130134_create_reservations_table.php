@@ -27,6 +27,8 @@ return new class extends Migration
             $table->integer('number_of_guest');
             $table->integer('number_of_child')->nullable();
             $table->bigInteger('total_cost');
+            $table->bigInteger('user_bill')->nullable();
+            $table->bigInteger('remaining_bill')->nullable();
             $table->timestamps();
         });
     }

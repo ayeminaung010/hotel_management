@@ -20,8 +20,9 @@
                                 <li class="list-inline-item">Manage Staffs</li>
                             </ul>
                         </div>
-                        <button class="au-btn au-btn-icon au-btn--green">
-                            <i class="zmdi zmdi-plus"></i>add employee</button>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#addEmployee" class="au-btn au-btn-icon au-btn--green">
+                            <i class="zmdi zmdi-plus"></i>add employee
+                        </a>
                     </div>
                 </div>
             </div>
@@ -99,19 +100,48 @@
                                                     <a href="#" class=" btn btn-warning" data-bs-toggle="modal" data-bs-target="#staff{{ $staff->id }}">Change Work Time</a>
                                                 </td>
                                                 <td>
-                                                    <button class=" btn btn-outline-secondary edit">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ $staff->id }}" class=" mx-1 my-1 btn btn-outline-secondary edit">
                                                         <i class="fa-solid fa-pen-to-square"></i>
-                                                    </button>
-                                                    <button class=" btn btn-outline-secondary edit">
+                                                    </a>
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#detail{{ $staff->id }}" class=" mx-1 my-1 btn btn-outline-secondary edit">
                                                         <i class="fa-solid fa-eye"></i>
-                                                    </button>
-                                                    <button class=" btn btn-outline-secondary edit">
+                                                    </a>
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#delete{{ $staff->id }}" class=" mx-1 my-1 btn btn-outline-secondary edit">
                                                         <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
+                                                    </a>
                                                 </td>
                                             </tr>
-                                              <!-- Modal -->
-                                              <div class="modal fade" id="staff{{ $staff->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <!--change work time  Modal -->
+                                            <div class="modal fade" id="staff{{ $staff->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $staff->name }} </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('change.workTime',['id' => $staff->id]) }}" method="post">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Working Date Time</label>
+                                                            <select class="form-select" name="work_time" aria-label="Default select example">
+                                                                @foreach ($workTimes as $workTime )
+                                                                    <option value="{{ $workTime->id }}" @selected( $staff->workingTime->id === $workTime->id)  >{{ $workTime->working_date }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary text-primary">Save changes</button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            <!--Edit Box Modal -->
+                                            <div class="modal fade" id="edit{{ $staff->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                   <div class="modal-content">
                                                     <div class="modal-header">
@@ -121,12 +151,24 @@
                                                     <div class="modal-body">
                                                         <form action="">
                                                             <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Working Date Time</label>
-                                                                <select class="form-select" name="card_type" aria-label="Default select example">
-                                                                    @foreach ($workTimes as $workTime )
-                                                                        {{-- <option value="{{ $workTime->id }}" @selected($staff->workTime->id === $workTime->id ) >{{ $workTime->working_date }}</option> --}}
+                                                                <label for="recipient-name" class="col-form-label">Name</label>
+                                                                <input type="text" value="{{ $staff->name }}" class=" form-control ">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Position</label>
+                                                                <select class="form-select" name="position" aria-label="Default select example">
+                                                                    @foreach ($positions as $position )
+                                                                        <option value="{{ $position->id }}" @selected( $staff->position->id === $position->id)  >{{ $position->name }}</option>
                                                                     @endforeach
                                                                 </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Phone</label>
+                                                                <input type="text" value="{{ $staff->phone }}" class=" form-control ">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Salary</label>
+                                                                <input type="text" value="{{ $staff->salary }}" class=" form-control ">
                                                             </div>
                                                         </form>
                                                     </div>
@@ -136,7 +178,78 @@
                                                     </div>
                                                   </div>
                                                 </div>
-                                              </div>
+                                            </div>
+
+
+                                            <!--View Box Modal -->
+                                            <div class="modal fade" id="detail{{ $staff->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $staff->name }}'s Details </h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="">
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Name</label>
+                                                                <input type="text" value="{{ $staff->name }}" class=" form-control " disabled>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Position</label>
+                                                                <select class="form-select" name="position" aria-label="Default select example" disabled>
+                                                                    @foreach ($positions as $position )
+                                                                        <option value="{{ $position->id }}" @selected( $staff->position->id === $position->id)  >{{ $position->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Work Time</label>
+                                                                <select class="form-select" name="position" aria-label="Default select example" disabled>
+                                                                    @foreach ($workTimes as $workTime )
+                                                                        <option value="{{ $workTime->id }}" @selected( $staff->workingTime->id === $workTime->id)  >{{ $workTime->working_date }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Phone</label>
+                                                                <input type="text" value="{{ $staff->phone }}" class=" form-control " disabled>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Salary</label>
+                                                                <input type="text" value="{{ $staff->salary }}" class=" form-control " disabled>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+
+                                            {{-- delete modal box  --}}
+                                            <div class="modal fade" id="delete{{ $staff->id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Confirmation Changes</h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      Are You Sure to Delete {{ $staff->name }}??
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <form action="{{ route('delete.staff',$staff->id ) }}" method="POST">
+                                                            @csrf
+                                                            <button class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -148,6 +261,56 @@
                             <!-- END USER DATA-->
                         </div>
 
+                        <!--add Employee Box Modal -->
+                        <div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee </h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="{{ route('add.staff') }}" method="POST">
+                                    @csrf
+                                    <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Name</label>
+                                                <input type="text" value="" name="name" class=" form-control ">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Position</label>
+                                                <select class="form-select" name="position_id" aria-label="Default select example">
+                                                    <option value="">Choose positions</option>
+                                                    @foreach ($positions as $position )
+                                                        <option value="{{ $position->id }}" @selected( old('position') === $position->id)  >{{ $position->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Working Date Time</label>
+                                                <select class="form-select" name="work_time_id" aria-label="Default select example">
+                                                    <option value="">Choose Working Time</option>
+                                                    @foreach ($workTimes as $workTime )
+                                                        <option value="{{ $workTime->id }}" @selected( old('work_time') === $workTime->id)  >{{ $workTime->working_date }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Phone</label>
+                                                <input type="text" value="" name="phone" class=" form-control ">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Salary</label>
+                                                <input type="text" value="" name="salary" class=" form-control ">
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary text-primary">Add</button>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

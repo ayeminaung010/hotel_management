@@ -26,13 +26,16 @@ Route::prefix('user')->group(function () {
     Route::get('/home',[UserController::class,'home'])->name('user.home');
 });
 
-Route::prefix('admin')->middleware('admin_middleweare')->group(function () {
+Route::prefix('admin')->middleware('admin_middleware')->group(function () {
     Route::get('/dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
 
     // reservation
-    Route::get('/reservation',[ReservationController::class,'show'])->name('admin.reservation');
-    Route::post('/reservation/create',[ReservationController::class,'create'])->name('reservation.create');
-    Route::get('/reservation/list',[ReservationController::class,'index'])->name('reservation.index');
+    Route::prefix('reservation')->group(function () {
+        Route::get('/',[ReservationController::class,'show'])->name('admin.reservation');
+        Route::post('/create',[ReservationController::class,'create'])->name('reservation.create');
+        Route::get('/list',[ReservationController::class,'index'])->name('reservation.index');
+    });
+
 
     // axios
     Route::get('/room_number/get',[ReservationController::class,'getNumber'])->name('room_no');
@@ -41,5 +44,11 @@ Route::prefix('admin')->middleware('admin_middleweare')->group(function () {
     Route::get('/rooms-manage',[RoomController::class,'show'])->name('admin.rooms');
 
     //employee manage
-    Route::get('/staff-manage',[StaffController::class,'show'])->name('admin.staff');
+    Route::prefix('staff-manage')->group(function () {
+        Route::get('/',[StaffController::class,'show'])->name('admin.staff');
+        Route::post('/change/work-time/{id}',[StaffController::class,'change'])->name('change.workTime');
+        Route::post('/delete/{id}',[StaffController::class,'delete'])->name('delete.staff');
+        Route::post('/add/employee',[StaffController::class,'add'])->name('add.staff');
+    });
+
 });

@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('phone',30);
             $table->bigInteger('salary');
             $table->foreignId('working_time_id')->constrained('working_times');
-            $table->string('from_time')->nullable();
-            $table->string('end_time')->nullable();
             $table->timestamps();
         });
     }
