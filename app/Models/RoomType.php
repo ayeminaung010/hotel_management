@@ -19,8 +19,8 @@ class RoomType extends Model
     }
 
 
-    // public function reservations(): HasMany
-    // {
-    //     return $this->hasMany(Reservation::class);
-    // }
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

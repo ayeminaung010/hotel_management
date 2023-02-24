@@ -21,13 +21,13 @@ class Reservation extends Model
         return $this->belongsTo(IDCardType::class);
     }
 
-    // public function rooms(): HasMany
-    // {
-    //     return $this->hasMany(Rooms::class);
-    // }
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(Rooms::class);
+    }
 
-    // public function room_type(): HasMany
-    // {
-    //     return $this->hasMany(RoomType::class);
-    // }
+    public function room_type(): HasMany
+    {
+        return $this->hasMany(RoomType::class);
+    }
 }

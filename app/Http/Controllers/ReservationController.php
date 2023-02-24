@@ -55,12 +55,6 @@ class ReservationController extends Controller
             $room_types_arr = $request->room_type;
             $room_no_arr = $request->room_no;
 
-            foreach($room_no_arr as $room_no){
-                $room = Rooms::find($room_no);
-                $room->booking_status = '1';
-                $room->update();
-            }
-
             $total_price = 0;
             foreach($room_types_arr as $room_types){
                 $room = RoomType::find($room_types);
@@ -68,6 +62,15 @@ class ReservationController extends Controller
             }
             $reservation->total_cost = $total_price * $request->totalDay;
             $reservation->save();
+
+            foreach($room_no_arr as $room_no){
+                $room = Rooms::find($room_no);
+                $room->booking_status = '1';
+                $room->reservation_id = $reservation->id;
+                $room->update();
+            }
+
+
             DB::commit();
             return back()->with(['success' => 'Reservation Successs!.... Total Cost is '.$reservation->total_cost . ' $']);
         } catch (Exception $e) {

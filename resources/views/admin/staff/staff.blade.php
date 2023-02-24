@@ -37,7 +37,7 @@
         <div class="col-lg-11">
             <form action="" method="post" novalidate="novalidate">
                 <div class="card">
-                    <div class="card-header">Manage Rooms</div>
+                    <div class="card-header">Manage Staff</div>
                     <div class="row">
                         <div class="col-xl-12">
                             <!-- USER DATA-->
@@ -96,7 +96,7 @@
                                                     <span class="">{{ $staff->salary }} $</span>
                                                 </td>
                                                 <td>
-                                                    <button class=" btn btn-warning">Change Work Time</button>
+                                                    <a href="#" class=" btn btn-warning" data-bs-toggle="modal" data-bs-target="#staff{{ $staff->id }}">Change Work Time</a>
                                                 </td>
                                                 <td>
                                                     <button class=" btn btn-outline-secondary edit">
@@ -110,6 +110,33 @@
                                                     </button>
                                                 </td>
                                             </tr>
+                                              <!-- Modal -->
+                                              <div class="modal fade" id="staff{{ $staff->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $staff->name }} </h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="">
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Working Date Time</label>
+                                                                <select class="form-select" name="card_type" aria-label="Default select example">
+                                                                    @foreach ($workTimes as $workTime )
+                                                                        {{-- <option value="{{ $workTime->id }}" @selected($staff->workTime->id === $workTime->id ) >{{ $workTime->working_date }}</option> --}}
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                      <button type="button" class="btn btn-primary text-primary">Save changes</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
                                             @endforeach
                                         </tbody>
                                     </table>
