@@ -41,7 +41,12 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
     Route::get('/room_number/get',[ReservationController::class,'getNumber'])->name('room_no');
 
     //rooms
-    Route::get('/rooms-manage',[RoomController::class,'show'])->name('admin.rooms');
+    Route::prefix('rooms-manage')->group(function () {
+        Route::get('/',[RoomController::class,'show'])->name('admin.rooms');
+        Route::post('/add',[RoomController::class,'add'])->name('add.rooms');
+        Route::post('/update/{id}',[RoomController::class,'update'])->name('update.room');
+        Route::post('/delete/{id}',[RoomController::class,'delete'])->name('delete.room');
+    });
 
     //employee manage
     Route::prefix('staff-manage')->group(function () {
@@ -49,6 +54,7 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::post('/change/work-time/{id}',[StaffController::class,'change'])->name('change.workTime');
         Route::post('/delete/{id}',[StaffController::class,'delete'])->name('delete.staff');
         Route::post('/add/employee',[StaffController::class,'add'])->name('add.staff');
+        Route::post('/update/employee/{id}',[StaffController::class,'update'])->name('update.staff');
     });
 
 });

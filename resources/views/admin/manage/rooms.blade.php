@@ -21,8 +21,8 @@
                                 <li class="list-inline-item">Reversation</li>
                             </ul>
                         </div>
-                        <button class="au-btn au-btn-icon au-btn--green">
-                            <i class="zmdi zmdi-plus"></i>add room</button>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#addRoom" class="au-btn au-btn-icon au-btn--green">
+                            <i class="zmdi zmdi-plus"></i>add room</a>
                     </div>
                 </div>
             </div>
@@ -109,13 +109,13 @@
                                                     @endif
                                                 </td>
                                                 <td >
-                                                    <a href="#" class=" btn btn-outline-secondary edit">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#edit{{ $room->id }}" class=" btn btn-outline-secondary edit">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
-                                                    <a href="#" class=" btn btn-outline-secondary edit">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#detail{{ $room->id }}" class=" btn btn-outline-secondary edit">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
-                                                    <a href="#" class=" btn btn-outline-secondary edit">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#delete{{ $room->id }}" class=" btn btn-outline-secondary edit">
                                                         <i class="fa-regular fa-trash-can"></i>
                                                     </a>
                                                 </td>
@@ -131,30 +131,6 @@
                                                     <div class="modal-body">
                                                         @if ($room->reservation_id !== null)
                                                             <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Name</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->first_name . '  ' . $room->reservation->last_name   }} " disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Phone</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->phone_no  }} " disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Email</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->email  }} " disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Address</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->residential_address  }} " disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Card Type</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->card_type->card_type  }} " disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Card No</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->card_number  }} " disabled>
-                                                            </div>
-                                                            <div class="mb-3">
                                                                 <label for="recipient-name" class="col-form-label">Check In Date</label>
                                                                 <input type="text" class="form-control" value="{{ $room->reservation->check_in  }} " disabled>
                                                             </div>
@@ -169,6 +145,10 @@
                                                             <div class="mb-3">
                                                                 <label for="recipient-name" class="col-form-label">Total Cost</label>
                                                                 <input type="text" class="form-control" value="{{ $room->reservation->total_cost  }} $" disabled>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Remaining Cost</label>
+                                                                <input type="text" class="form-control" value="{{ $room->reservation->remaining_bill  }} $" disabled>
                                                             </div>
                                                         @else
                                                             <div class="mb-3">
@@ -220,6 +200,10 @@
                                                                 <label for="recipient-name" class="col-form-label">Price Per Night</label>
                                                                 <input type="text" class="form-control" value="{{ $room->roomType->price_per_night  }} $" disabled>
                                                             </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Total Cost</label>
+                                                                <input type="text" class="form-control" value="" disabled>
+                                                            </div>
                                                         @endif
                                                       <form>
                                                         <div class="mb-3">
@@ -234,14 +218,132 @@
                                                     </div>
                                                   </div>
                                                 </div>
-                                              </div>
-                                              {{-- check out modal  --}}
-                                              <div class="modal fade" id="checkOut{{ $room->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            </div>
+
+                                            {{-- check out modal  --}}
+                                            <div class="modal fade" id="checkOut{{ $room->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -  ' . $room->roomType->name }}</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @if ($room->reservation_id !== null)
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Check In Date</label>
+                                                            <input type="text" class="form-control" value="{{ $room->reservation->check_in  }} " disabled>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Check Out Date</label>
+                                                            <input type="text" class="form-control" value="{{ $room->reservation->check_out  }} " disabled>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Price Per Night</label>
+                                                            <input type="text" class="form-control" value="{{ $room->roomType->price_per_night  }} $" disabled>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Total Cost</label>
+                                                            <input type="text" class="form-control" value="{{ $room->reservation->total_cost  }} $" disabled>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Remaining Cost</label>
+                                                            <input type="text" class="form-control" value="{{ $room->reservation->remaining_bill  }} $" disabled>
+                                                        </div>
+                                                    @endif
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Check Out</label>
+                                                                <input type="text" class="form-control" id="recipient-name">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary text-primary">Submit</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- Edit box modal  --}}
+                                            <div class="modal fade" id="edit{{ $room->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -  ' . $room->roomType->name }}</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @if ($room->reservation_id !== null)
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Check In Date</label>
+                                                                <input type="date" class="form-control" value="{{ $room->reservation->check_in  }} " >
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Check Out Date</label>
+                                                                <input type="date" class="form-control" value="{{ $room->reservation->check_out  }} " >
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Price Per Night</label>
+                                                                <input type="text" class="form-control" value="{{ $room->roomType->price_per_night  }} $" >
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Total Cost</label>
+                                                                <input type="text" class="form-control" value="{{ $room->reservation->total_cost  }} $" >
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Remaining Cost</label>
+                                                                <input type="text" class="form-control" value="{{ $room->reservation->remaining_bill  }} $" >
+                                                            </div>
+                                                        @endif
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Room No</label>
+                                                                <input type="text" name="room_no" class="form-control" id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Room Type</label>
+                                                                <input type="text" name="room_no" class="form-control" id="recipient-name">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary text-primary">Submit</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {{-- delete modal box   --}}
+                                            <div class="modal fade" id="delete{{ $room->id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
                                                   <div class="modal-content">
                                                     <div class="modal-header">
-                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -  ' . $room->roomType->name }}</h1>
+                                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Confirmation Changes</h1>
                                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      Are You Sure to Delete {{ $room->room_no }}??
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <form action="{{ route('delete.room',$room->id) }}" method="POST">
+                                                            @csrf
+                                                            <button class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+
+                                            {{-- deatail modal  --}}
+                                            <div class="modal fade" id="detail{{ $room->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -  ' . $room->roomType->name }}</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         @if ($room->reservation_id !== null)
@@ -281,22 +383,22 @@
                                                             <label for="recipient-name" class="col-form-label">Total Cost</label>
                                                             <input type="text" class="form-control" value="{{ $room->reservation->total_cost  }} $" disabled>
                                                         </div>
-                                                    @endif
-                                                      <form>
                                                         <div class="mb-3">
-                                                          <label for="recipient-name" class="col-form-label">Check Out</label>
-                                                          <input type="text" class="form-control" id="recipient-name">
+                                                            <label for="recipient-name" class="col-form-label">Remaining Cost</label>
+                                                            <input type="text" class="form-control" value="{{ $room->reservation->remaining_bill  }} $" disabled>
                                                         </div>
-                                                      </form>
+                                                        @else
+                                                            <h1>No Booking Here</h1>
+                                                        @endif
                                                     </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
-                                                      <button type="button" class="btn btn-primary text-primary">Submit</button>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
                                                     </div>
-                                                  </div>
                                                 </div>
-                                              </div>
-                                            @endforeach
+                                                </div>
+
+                                                @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -312,6 +414,46 @@
 
             </form>
         </div>
+        {{-- add room modal  --}}
+        <div class="modal fade" id="addRoom" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Room</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('add.rooms') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="" class="col-form-label">Room No</label>
+                            <input type="text" name="room_no" class="form-control" id="">
+                            @error('room_no')
+                                <small class=" text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="col-form-label">Room Type</label>
+                            <select name="room_type" class=" form-control" id="">
+                                <option value="">Choose room type</option>
+                                @foreach ($roomType as $type)
+                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('room_type')
+                                <small class=" text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary text-primary">Create</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </section>

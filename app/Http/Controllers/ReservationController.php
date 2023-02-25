@@ -61,6 +61,7 @@ class ReservationController extends Controller
                 $total_price += $room->price_per_night;
             }
             $reservation->total_cost = $total_price * $request->totalDay;
+            $reservation->remaining_bill = $total_price * $request->totalDay;
             $reservation->save();
 
             foreach($room_no_arr as $room_no){
@@ -69,7 +70,6 @@ class ReservationController extends Controller
                 $room->reservation_id = $reservation->id;
                 $room->update();
             }
-
 
             DB::commit();
             return back()->with(['success' => 'Reservation Successs!.... Total Cost is '.$reservation->total_cost . ' $']);

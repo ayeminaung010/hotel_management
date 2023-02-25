@@ -148,11 +148,12 @@
                                                       <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $staff->name }} </h1>
                                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <form action="">
+                                                    <form action="{{ route('update.staff', $staff->id) }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
                                                             <div class="mb-3">
                                                                 <label for="recipient-name" class="col-form-label">Name</label>
-                                                                <input type="text" value="{{ $staff->name }}" class=" form-control ">
+                                                                <input type="text" name="name" value="{{ $staff->name }}" class=" form-control ">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="recipient-name" class="col-form-label">Position</label>
@@ -163,23 +164,30 @@
                                                                 </select>
                                                             </div>
                                                             <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Working Date Time</label>
+                                                                <select class="form-select" name="work_time" aria-label="Default select example">
+                                                                    @foreach ($workTimes as $workTime )
+                                                                        <option value="{{ $workTime->id }}" @selected( $staff->workingTime->id === $workTime->id)  >{{ $workTime->working_date }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
                                                                 <label for="recipient-name" class="col-form-label">Phone</label>
-                                                                <input type="text" value="{{ $staff->phone }}" class=" form-control ">
+                                                                <input type="text" name="phone" value="{{ $staff->phone }}" class=" form-control ">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="recipient-name" class="col-form-label">Salary</label>
-                                                                <input type="text" value="{{ $staff->salary }}" class=" form-control ">
+                                                                <input type="text" name="salary" value="{{ $staff->salary }}" class=" form-control ">
                                                             </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
-                                                      <button type="button" class="btn btn-primary text-primary">Save changes</button>
-                                                    </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary text-primary">Save changes</button>
+                                                        </div>
+                                                    </form>
                                                   </div>
                                                 </div>
                                             </div>
-
 
                                             <!--View Box Modal -->
                                             <div class="modal fade" id="detail{{ $staff->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

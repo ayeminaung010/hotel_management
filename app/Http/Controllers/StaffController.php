@@ -19,7 +19,7 @@ class StaffController extends Controller
 
     //change
     public function change(Request $request,$id){
-        dd($id);
+        // dd($id);
         $staff  = Staff::where('id',$id)->first();
         $staff->working_time_id = $request->work_time;
         $staff->save();
@@ -51,5 +51,18 @@ class StaffController extends Controller
         $staff->salary = $request->salary;
         $staff->save();
         return back()->with(['success' => 'Create SuccessFully']);
+    }
+
+    //update
+    public function update(Request $request,$id){
+        $staff  = Staff::where('id',$id)->first();
+        $staff->name = $request->name;
+
+        $staff->position_id = $request->position;
+        $staff->working_time_id = $request->work_time;
+        $staff->phone = $request->phone;
+        $staff->salary = $request->salary;
+        $result = $staff->update();
+        return redirect()->route('admin.staff')->with(['success' => 'created success']);
     }
 }
