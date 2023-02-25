@@ -36,7 +36,6 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::get('/list',[ReservationController::class,'index'])->name('reservation.index');
     });
 
-
     // axios
     Route::get('/room_number/get',[ReservationController::class,'getNumber'])->name('room_no');
 
@@ -46,6 +45,7 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::post('/add',[RoomController::class,'add'])->name('add.rooms');
         Route::post('/update/{id}',[RoomController::class,'update'])->name('update.room');
         Route::post('/delete/{id}',[RoomController::class,'delete'])->name('delete.room');
+        Route::post('/check-in/{id}',[RoomController::class,'checkIn'])->name('checkIn.room');
     });
 
     //employee manage

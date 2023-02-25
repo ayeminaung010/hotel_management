@@ -34,7 +34,6 @@
 <section >
     <!-- rooom detail  -->
     <div class="row justify-content-center mt-5">
-
         <div class="col-lg-11">
             <form action="" method="post" novalidate="novalidate">
                 <div class="card">

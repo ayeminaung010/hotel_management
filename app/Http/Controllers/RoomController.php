@@ -25,7 +25,6 @@ class RoomController extends Controller
 
     //add
     public function add(Request $request){
-        // dd($request->all());
         $request->validate([
             'room_no' => 'required',
             'room_type' => 'required',
@@ -39,12 +38,22 @@ class RoomController extends Controller
 
     //update
     public function update(Request $request,$id){
-        dd($id);
+        $room = Rooms::where('id',$id)->first();
+        $room->room_no = $request->room_no;
+        $room->room_type_id = $request->room_type;
+        $room->save();
+        return back()->with(['success' => 'room details updated success']);
     }
 
     //delete
     public function delete($id){
         $result = Rooms::where('id',$id)->delete();
         return back()->with([['success' => 'delete Successfully']]);
+    }
+
+    //checkIn
+    public function checkIn(Request $request,$id){
+        dd($id,$request->all());
+        
     }
 }

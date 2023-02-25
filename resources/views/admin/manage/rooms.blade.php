@@ -128,94 +128,95 @@
                                                       <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -   ' . $room->roomType->name }}</h1>
                                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        @if ($room->reservation_id !== null)
+                                                    <form action="{{ route('checkIn.room',$room->id) }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            @if ($room->reservation_id !== null)
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Check In Date</label>
+                                                                    <input type="text"  class="form-control" value="{{ $room->reservation->check_in  }} " disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Check Out Date</label>
+                                                                    <input type="text" class="form-control" value="{{ $room->reservation->check_out  }} " disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Price Per Night</label>
+                                                                    <input type="text" class="form-control" value="{{ $room->roomType->price_per_night  }} $" disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Total Cost</label>
+                                                                    <input type="text" class="form-control" value="{{ $room->reservation->total_cost  }} $" disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Remaining Cost</label>
+                                                                    <input type="text" class="form-control" value="{{ $room->reservation->remaining_bill  }} $" disabled>
+                                                                </div>
+                                                            @else
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Name</label>
+                                                                    <input type="text" name="name" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Phone</label>
+                                                                    <input type="number" name="phone" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Email</label>
+                                                                    <input type="email" name="email" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Card Type</label>
+                                                                    <select class="form-select" name="card_type" aria-label="Default select example">
+                                                                        <option value="">Choose Card Type</option>
+                                                                        @foreach ($card_types as $card_type )
+                                                                            <option value="{{ $card_type->id }}" @selected(old('card_type') === $card_type->id ) >{{ $card_type->card_type }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Card Number</label>
+                                                                    <input type="number" name="card_no" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Residential Address</label>
+                                                                    <input type="text" name="address" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Number Of Guest</label>
+                                                                    <input type="number" name="no_of_guest" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Number Of Child</label>
+                                                                    <input type="number" name="no_of_child" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Check In</label>
+                                                                    <input type="date" name="check_in_date" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Check Out</label>
+                                                                    <input type="date" name="check_out_date" class="form-control" value="" >
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Price Per Night</label>
+                                                                    <input type="text"  class="form-control" value="{{ $room->roomType->price_per_night  }} $" disabled>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Total Cost</label>
+                                                                    <input type="text"  class="form-control" value="" disabled>
+                                                                </div>
+                                                            @endif
                                                             <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Check In Date</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->check_in  }} " disabled>
+                                                                <label for="recipient-name" class="col-form-label">Payment</label>
+                                                                <input type="text" name="user_payment" class="form-control" id="recipient-name">
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Check Out Date</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->check_out  }} " disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Price Per Night</label>
-                                                                <input type="text" class="form-control" value="{{ $room->roomType->price_per_night  }} $" disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Total Cost</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->total_cost  }} $" disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Remaining Cost</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->remaining_bill  }} $" disabled>
-                                                            </div>
-                                                        @else
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Name</label>
-                                                                <input type="text" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Phone</label>
-                                                                <input type="number" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Email</label>
-                                                                <input type="email" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Card Type</label>
-                                                                <select class="form-select" name="card_type" aria-label="Default select example">
-                                                                    <option value="">Choose Card Type</option>
-                                                                    @foreach ($card_types as $card_type )
-                                                                        <option value="{{ $card_type->id }}" @selected(old('card_type') === $card_type->id ) >{{ $card_type->card_type }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Card Number</label>
-                                                                <input type="email" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Residential Address</label>
-                                                                <input type="email" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Number Of Guest</label>
-                                                                <input type="number" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Number Of Child</label>
-                                                                <input type="number" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Check In</label>
-                                                                <input type="date" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Check Out</label>
-                                                                <input type="date" class="form-control" value="" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Price Per Night</label>
-                                                                <input type="text" class="form-control" value="{{ $room->roomType->price_per_night  }} $" disabled>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Total Cost</label>
-                                                                <input type="text" class="form-control" value="" disabled>
-                                                            </div>
-                                                        @endif
-                                                      <form>
-                                                        <div class="mb-3">
-                                                          <label for="recipient-name" class="col-form-label">Payment</label>
-                                                          <input type="text" class="form-control" id="recipient-name">
                                                         </div>
-                                                      </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
-                                                      <button type="button" class="btn btn-primary text-primary">Submit</button>
-                                                    </div>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                          <button type="submit" class="btn btn-primary text-primary">Submit</button>
+                                                        </div>
+                                                    </form>
                                                   </div>
                                                 </div>
                                             </div>
@@ -273,44 +274,33 @@
                                                         <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $room->room_no . '    -  ' . $room->roomType->name }}</h1>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        @if ($room->reservation_id !== null)
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Check In Date</label>
-                                                                <input type="date" class="form-control" value="{{ $room->reservation->check_in  }} " >
+                                                       <form action="{{ route('update.room',$room->id) }}" method="POST">
+                                                        @csrf
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Room No</label>
+                                                                    <input type="text" name="room_no" value="{{ $room->room_no }}" class="form-control" id="recipient-name">
+                                                                    @error('room_no')
+                                                                        <small class=" text-danger">{{ $message }}</small>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="recipient-name" class="col-form-label">Room Type</label>
+                                                                    <select name="room_type" class=" form-control" id="">
+                                                                        @foreach ($roomType as $type)
+                                                                            <option value="{{ $type->id }}" @selected($room->room_type_id === $type->id) >{{ $type->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('room_type')
+                                                                        <small class=" text-danger">{{ $message }}</small>
+                                                                    @enderror
+                                                                </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Check Out Date</label>
-                                                                <input type="date" class="form-control" value="{{ $room->reservation->check_out  }} " >
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary text-primary">Submit</button>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Price Per Night</label>
-                                                                <input type="text" class="form-control" value="{{ $room->roomType->price_per_night  }} $" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Total Cost</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->total_cost  }} $" >
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Remaining Cost</label>
-                                                                <input type="text" class="form-control" value="{{ $room->reservation->remaining_bill  }} $" >
-                                                            </div>
-                                                        @endif
-                                                        <form>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Room No</label>
-                                                                <input type="text" name="room_no" class="form-control" id="recipient-name">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Room Type</label>
-                                                                <input type="text" name="room_no" class="form-control" id="recipient-name">
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary text-primary">Submit</button>
-                                                    </div>
+                                                       </form>
                                                     </div>
                                                 </div>
                                             </div>
