@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RecycleBin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoomController;
@@ -35,6 +36,8 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::post('/create',[ReservationController::class,'create'])->name('reservation.create');
         Route::get('/list',[ReservationController::class,'index'])->name('reservation.index');
         Route::get('/delete/{id}',[ReservationController::class,'delete'])->name('reservation.delete');
+        Route::get('/edit/{id}',[ReservationController::class,'edit'])->name('reservation.edit');
+        Route::post('/update/{id}',[ReservationController::class,'update'])->name('reservation.update');
     });
 
     // axios
@@ -57,6 +60,12 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::post('/delete/{id}',[StaffController::class,'delete'])->name('delete.staff');
         Route::post('/add/employee',[StaffController::class,'add'])->name('add.staff');
         Route::post('/update/employee/{id}',[StaffController::class,'update'])->name('update.staff');
+    });
+
+    Route::prefix('recycle')->group(function () {
+        Route::get('/lists',[RecycleBin::class,'list'])->name('admin.recycle');
+        Route::get('/delete/{id}',[RecycleBin::class,'delete'])->name('delete.recycle');
+        Route::get('/restore/{id}',[RecycleBin::class,'restore'])->name('restore.recycle');
     });
 
 });

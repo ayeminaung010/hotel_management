@@ -26,41 +26,54 @@
             <a href="{{ route('reservation.index') }}" class="my-3 btn btn-info">
                 Lists
             </a>
-            <form action="{{ route('reservation.create') }}" method="POST" novalidate="novalidate">
+            <form action="{{ route('reservation.update',$reservation->id) }}" method="POST" novalidate="novalidate">
                 @csrf
                 <div class="card">
                     <div class="card-header text-info">Room Information</div>
                     <div class="card-body">
                         <input type="hidden" name="totalDay" id="totalDay" value="">
                         <div class="" >
-                            <div class="row my-2" id="single_room">
+                            <div class="col-2">
+                                <a  class=" btn btn-primary" id="addBtn">Add Room</a>
+                            </div>
+                            <div class="row my-2 justify-content-center align-items-center" id="single_room">
                                 <div class="col-6">
-                                    <select class="form-select"  name="room_type[]" id="room_type" aria-label="Default select example">
-                                        <option value="">Choose Room Type</option>
-                                        @foreach ($room_types as $room_type)
-                                            <option value="{{ $room_type->id }}"
-                                                @selected((collect(old('room_type'))->contains($room_type['id'])))
-                                            >
-                                                <span>{{ $room_type->name }}</span>
-                                                <span>-------------</span>
-                                                <span>{{ $room_type->price_per_night }} $ /-</span>
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    @foreach (json_decode($reservation->room_type_id) as $room_type_id)
+                                        <select class="form-select my-2"  name="room_type[]" id="room_type" aria-label="Default select example">
+                                            <option value="">Choose Room Type</option>
+                                            @foreach ($room_types as $room_type)
+                                                <option value="{{ $room_type->id }}"
+                                                    @selected((collect(old('room_type',$room_type_id))->contains($room_type['id'])))
+                                                >
+                                                    <span>{{ $room_type->name }}</span>
+                                                    <span>-------------</span>
+                                                    <span>{{ $room_type->price_per_night }} $ /-</span>
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @endforeach
                                     @error('room_type')
-                                     <small class=" text-danger">{{ $message  }}</small>
+                                        <small class=" text-danger">{{ $message  }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-4">
-                                    <select class="form-select d-none" id="room_no" name="room_no[]" aria-label="Default select example">
-
-                                    </select>
+                                    @foreach (json_decode($reservation->room_id) as $room_id)
+                                        <select class="form-select my-2" id="room_no" name="room_no[]" aria-label="Default select example">
+                                            @foreach ($room_nos as $room_no )
+                                                <option value="{{ $room_no->id }}" class=' d-flex justify-between '
+                                                    @selected((collect(old('room_no',$room_id))->contains($room_no['id'])))
+                                                >
+                                                    <span>{{ $room_no->room_no }}</span>
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @endforeach
                                     @error('room_no')
                                         <small class=" text-danger">{{ $message  }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-2">
-                                    <a  class=" btn btn-primary" id="addBtn">Add Room</a>
+                                    <a  class=" btn btn-danger my-2" onclick="removeRoom(event)" id="removeBtn">Remove All </a>
                                 </div>
                             </div>
                             <div class="" id="room_info">
@@ -70,7 +83,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cc-exp"  class="control-label mb-1">Check In </label>
-                                    <input type="date" name="check_in" value="{{ old('check_in') }}" id="check_in" class=" form-control">
+                                    <input type="date" name="check_in" value="{{ old('check_in',$reservation->check_in) }}" id="check_in" class=" form-control">
                                 </div>
                                 @error('check_in')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -79,7 +92,7 @@
                             <div class="col-6">
                                 <label for="x_card_code"  class="control-label mb-1">Check out </label>
                                 <div class="input-group">
-                                    <input type="date" name="check_out" value="{{ old('check_out') }}" id="check_out" class=" form-control">
+                                    <input type="date" name="check_out" value="{{ old('check_out',$reservation->check_out) }}" id="check_out" class=" form-control">
                                 </div>
                                 @error('check_out')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -112,7 +125,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cc-exp" class="control-label mb-1">First Name</label>
-                                    <input type="text" name="first_name"  value="{{ old('first_name') }}" class=" form-control">
+                                    <input type="text" name="first_name"  value="{{ old('first_name',$reservation->first_name) }}" class=" form-control">
                                 </div>
                                 @error('first_name')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -121,7 +134,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cc-exp" class="control-label mb-1">Last Name</label>
-                                    <input type="text" name="last_name"  value="{{ old('last_name') }}" class=" form-control">
+                                    <input type="text" name="last_name"  value="{{ old('last_name',$reservation->last_name) }}" class=" form-control">
                                 </div>
                                 @error('last_name')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -132,7 +145,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cc-exp" class="control-label mb-1">Contact Number</label>
-                                    <input type="number" name="phone_no" value="{{ old('phone_no','09089589') }}" class=" form-control">
+                                    <input type="number" name="phone_no" value="{{ old('phone_no','09089589',$reservation->phone_no) }}" class=" form-control">
                                 </div>
                                 @error('phone_no')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -141,7 +154,7 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">Email Address</label>
                                 <div class="input-group">
-                                    <input type="email" name='email' value="{{ old('email') }}" class=" form-control">
+                                    <input type="email" name='email' value="{{ old('email',$reservation->email) }}" class=" form-control">
                                 </div>
                                 @error('email')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -155,7 +168,7 @@
                                     <select class="form-select" name="card_type" aria-label="Default select example">
                                         <option value="">Choose Card Type</option>
                                         @foreach ($card_types as $card_type )
-                                            <option value="{{ $card_type->id }}" @selected(old('card_type') === $card_type->id ) >{{ $card_type->card_type }}</option>
+                                            <option value="{{ $card_type->id }}" @selected(old('card_type',$reservation->card_type_id) === $card_type->id ) >{{ $card_type->card_type }}</option>
                                         @endforeach
                                     </select>
                                     @error('card_type')
@@ -166,7 +179,7 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">ID Card Number</label>
                                 <div class="input-group">
-                                    <input type="number" value="{{ old('card_no','09385943') }}" name="card_no" class=" form-control">
+                                    <input type="number" value="{{ old('card_no',$reservation->card_number) }}" name="card_no" class=" form-control">
                                 </div>
                                 @error('card_no')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -178,7 +191,7 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">Residential Address</label>
                                 <div class="input-group">
-                                    <input type="text" value="{{ old('address','yangon') }}" name="address" class=" form-control">
+                                    <input type="text" value="{{ old('address',$reservation->residential_address) }}" name="address" class=" form-control">
                                 </div>
                                 @error('address')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -189,7 +202,7 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">Number Of Guest</label>
                                 <div class="input-group">
-                                    <input type="number" value="{{ old('guest_no','3') }}" name="guest_no" class=" form-control">
+                                    <input type="number" value="{{ old('guest_no',$reservation->number_of_guest) }}" name="guest_no" class=" form-control">
                                 </div>
                                 @error('guest_no')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -198,7 +211,7 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">Number Of Children(child age under 14)</label>
                                 <div class="input-group">
-                                    <input type="number" value="{{ old('child_no') }}" name="child_no" class=" form-control">
+                                    <input type="number" value="{{ old('child_no',$reservation->number_of_child) }}" name="child_no" class=" form-control">
                                 </div>
                                 @error('child_no')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -212,7 +225,6 @@
                 </div>
             </form>
         </div>
-
     </div>
 </section>
 <!-- END STATISTIC-->
@@ -282,8 +294,8 @@
             </div>`;
         })
 
-        function removeRoom(e){
-            const parent = e.target.closest('#single_room');
+        function removeRoom(event){
+            const parent = event.target.closest('#single_room');
             const roomType = parent.querySelector('#room_type');
             parent.remove();
         }

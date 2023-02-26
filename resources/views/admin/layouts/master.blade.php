@@ -88,8 +88,13 @@
 
                         </li>
                         <li class=" has-sub">
-                            <a class="js-arrow text-decoration-none" href="complaints.html">
+                            <a class="js-arrow text-decoration-none" href="">
                                 <i class="fa-solid fa-comments"></i>Manage Complaints
+                            </a>
+                        </li>
+                        <li class="@if( Route::currentRouteName() === 'admin.recycle' ) active @endif has-sub">
+                            <a class="js-arrow text-decoration-none" href="{{ route('admin.recycle') }}">
+                                <i class="fa-solid fa-recycle"></i>Recycle bin
                             </a>
                         </li>
                     </ul>

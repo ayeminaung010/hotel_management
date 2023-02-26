@@ -65,7 +65,6 @@ class RoomController extends Controller
 
     //checkout
     public function checkOut(Request $request){
-
         try {
             DB::beginTransaction();
             $room = Rooms::where('id',$request->data['room_id'])->first();
