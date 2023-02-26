@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Rooms;
 use App\Models\RoomType;
 use App\Models\IDCardType;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RoomController extends Controller
@@ -52,8 +54,41 @@ class RoomController extends Controller
     }
 
     //checkIn
-    public function checkIn(Request $request,$id){
-        dd($id,$request->all());
-        
+    public function checkIn(Request $request){
+        $room = Rooms::where('id',$request->data['room_id'])->first();
+
+        $room->reservation->user_bill = $room->reservation->user_bill +  $request->data['user_payment'];
+        $room->reservation->remaining_bill = $room->reservation->total_cost - $request->data['user_payment'];
+        $room->reservation->update();
+        return response()->json(['success' => 'successfully check-in']);
+    }
+
+    //checkout
+    public function checkOut(Request $request){
+
+        try {
+            DB::beginTransaction();
+            $room = Rooms::where('id',$request->data['room_id'])->first();
+
+            $room->reservation->user_bill =  $room->reservation->user_bill + $request->data['user_payment'];
+            $room->reservation->remaining_bill = $room->reservation->remaining_bill - $request->data['user_payment'];
+            $room->reservation->update();
+
+            if($room->reservation->remaining_bill === 0){
+                $reservation = Reservation::find($room->reservation_id);
+                logger($room->reservation_id);
+                $reservation->delete();
+
+                $room->booking_status = '0';
+                $room->reservation_id = null;
+                $room->reservation->update();
+                $room->update();
+            }
+            DB::commit();
+            return response()->json(['success' => 'successfully checkout']);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['fail' => 'Failed checkout']);
+        }
     }
 }

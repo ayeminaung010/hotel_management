@@ -112,7 +112,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cc-exp" class="control-label mb-1">First Name</label>
-                                    <input type="text" name="first_name" value="{{ old('first_name') }}" class=" form-control">
+                                    <input type="text" name="first_name"  value="{{ old('first_name') }}" class=" form-control">
                                 </div>
                                 @error('first_name')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -132,7 +132,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="cc-exp" class="control-label mb-1">Contact Number</label>
-                                    <input type="number" name="phone_no" value="{{ old('phone_no') }}" class=" form-control">
+                                    <input type="number" name="phone_no" value="{{ old('phone_no','09089589') }}" class=" form-control">
                                 </div>
                                 @error('phone_no')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -166,7 +166,7 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">ID Card Number</label>
                                 <div class="input-group">
-                                    <input type="number" value="{{ old('card_no') }}" name="card_no" class=" form-control">
+                                    <input type="number" value="{{ old('card_no','09385943') }}" name="card_no" class=" form-control">
                                 </div>
                                 @error('card_no')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -178,7 +178,7 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">Residential Address</label>
                                 <div class="input-group">
-                                    <input type="text" value="{{ old('address') }}" name="address" class=" form-control">
+                                    <input type="text" value="{{ old('address','yangon') }}" name="address" class=" form-control">
                                 </div>
                                 @error('address')
                                     <small class=" text-danger">{{ $message  }}</small>
@@ -189,14 +189,14 @@
                             <div class="col-6">
                                 <label for="x_card_code" class="control-label mb-1">Number Of Guest</label>
                                 <div class="input-group">
-                                    <input type="number" value="{{ old('guest_no') }}" name="guest_no" class=" form-control">
+                                    <input type="number" value="{{ old('guest_no','3') }}" name="guest_no" class=" form-control">
                                 </div>
                                 @error('guest_no')
                                     <small class=" text-danger">{{ $message  }}</small>
                                 @enderror
                             </div>
                             <div class="col-6">
-                                <label for="x_card_code" class="control-label mb-1">Number Of Children(eg - child age under 14)</label>
+                                <label for="x_card_code" class="control-label mb-1">Number Of Children(child age under 14)</label>
                                 <div class="input-group">
                                     <input type="number" value="{{ old('child_no') }}" name="child_no" class=" form-control">
                                 </div>

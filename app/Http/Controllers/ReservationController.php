@@ -9,9 +9,11 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ReservationRequest;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ReservationController extends Controller
 {
+
     //show
     public function show(){
         $room_types = RoomType::get();
@@ -72,7 +74,7 @@ class ReservationController extends Controller
             }
 
             DB::commit();
-            return back()->with(['success' => 'Reservation Successs!.... Total Cost is '.$reservation->total_cost . ' $']);
+            return back()->with(['success' => 'Reservation Success!.... Total Cost is '.$reservation->total_cost . ' $']);
         } catch (Exception $e) {
             DB::rollback();
             return back()->with(['error' => 'Reservation Failed!....']);
@@ -109,5 +111,20 @@ class ReservationController extends Controller
             $reservationRoomNos[$reservation->id] = $roomId_arr;
         }
         return view('admin.reservation.list',compact('reservations','reservationRoomTypes','reservationRoomNos'));
+    }
+
+    public function delete($id){
+        // dd($id);
+        $reservation = Reservation::where('id',$id)->first();
+
+        $room_ids  = json_decode($reservation->room_id);
+        foreach($room_ids as $room_id){
+            $room = Rooms::where('id', $room_id)->first();
+            $room->reservation_id = null;
+            $room->booking_status = '0';
+            $room->update();
+        }
+        $reservation->delete();
+        return redirect()->route('reservation.index');
     }
 }

@@ -70,13 +70,14 @@
                                                 <td>Number Of Guest</td>
                                                 <td>Number Of Child</td>
                                                 <td>Booking Date</td>
+                                                <td>Total Cost</td>
                                                 <td>Action</td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($reservations as  $reservation)
                                             <tr>
-                                                <td>
+                                                <td class=" w-25">
                                                     <div class="">
                                                         <span class="">{{ $reservation->first_name.' '.$reservation->last_name }}</span>
                                                     </div>
@@ -95,21 +96,46 @@
                                                 <td>
                                                     <span class="">{{ $reservation->number_of_child }} </span>
                                                 </td>
-                                                <td>
-                                                    <span class="">{{ $reservation->created_at->format('d-M-Y') }} </span>
+                                                <td  class=" w-25">
+                                                    <span class=" ">{{ $reservation->created_at->format('d-M-Y') }} </span>
                                                 </td>
-                                                <td>
-                                                    <button class=" btn btn-outline-secondary edit">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
-                                                    </button>
-                                                    <a href="#"  data-bs-toggle="modal" data-bs-target="#detail{{ $reservation->id }}" class=" btn btn-outline-secondary detail">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
-                                                    <button class=" btn btn-outline-secondary edit">
-                                                        <i class="fa-regular fa-trash-can"></i>
-                                                    </button>
+                                                <td class=" w-25">
+                                                    <span class="">{{ $reservation->total_cost }} $</span>
+                                                </td>
+                                                <td >
+                                                    <div class=" flex gap-2 flex-wrap">
+                                                        <a href="#" class=" btn btn-outline-secondary edit">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+                                                        <a href="#"  data-bs-toggle="modal" data-bs-target="#detail{{ $reservation->id }}" class=" btn btn-outline-secondary detail">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#delete{{ $reservation->id }}" class=" btn btn-outline-secondary edit">
+                                                            <i class="fa-regular fa-trash-can"></i>
+                                                        </a>
+                                                    </div>
                                                 </td>
                                             </tr>
+
+                                            {{-- delete modal  --}}
+                                            <div class="modal fade" id="delete{{ $reservation->id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Confirmation Changes</h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      Are You Sure to Delete {{ $reservation->first_name.' '.$reservation->last_name }}? <br>
+                                                      Don't worry you can restore and Still see details in the Recycle-bin Section.
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <a href="{{ route('reservation.delete',$reservation->id) }}" class="btn btn-danger">Delete</a>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
                                             {{-- Deail out modal  --}}
                                             <div class="modal fade" id="detail{{ $reservation->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
@@ -130,8 +156,8 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="recipient-name" class="col-form-label">Room Type</label>
-                                                            @foreach ($reservationRoomTypes[$reservation->id] as $roomType)
-                                                                <input type="text" class="form-control" value="{{ $roomType->name }}" id="recipient-name" disabled>
+                                                            @foreach ($reservationRoomTypes[$reservation->id] as $reservationType)
+                                                                <input type="text" class="form-control" value="{{ $reservationType->name }}" id="recipient-name" disabled>
                                                             @endforeach
                                                         </div>
                                                         <div class="mb-3">
