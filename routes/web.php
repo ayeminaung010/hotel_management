@@ -7,6 +7,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ReservationController;
 
 
@@ -25,6 +26,20 @@ Route::post('/auth/logout',[AuthController::class,'logout'])->name('logout.user'
 
 Route::prefix('user')->group(function () {
     Route::get('/home',[UserController::class,'home'])->name('user.home');
+
+    Route::get('/about',[UserController::class,'about'])->name('user.about');
+
+    Route::get('/service',[UserController::class,'service'])->name('user.service');
+
+    Route::get('/blogs',[UserController::class,'blogs'])->name('user.blogs');
+
+    Route::get('/blogs/single-blog',[UserController::class,'singleBlog'])->name('user.singleBlog');
+
+    Route::get('/pages/rooms',[UserController::class,'rooms'])->name('user.rooms');
+
+    Route::get('/pages/element',[UserController::class,'element'])->name('user.element');
+
+    Route::get('/contact',[UserController::class,'contact'])->name('user.contact');
 });
 
 Route::prefix('admin')->middleware('admin_middleware')->group(function () {
@@ -66,6 +81,10 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::get('/lists',[RecycleBin::class,'list'])->name('admin.recycle');
         Route::get('/delete/{id}',[RecycleBin::class,'delete'])->name('delete.recycle');
         Route::get('/restore/{id}',[RecycleBin::class,'restore'])->name('restore.recycle');
+    });
+
+    Route::prefix('online-booking')->group(function () {
+        Route::get('/',[BookingController::class,'list'])->name('online.booking');
     });
 
 });

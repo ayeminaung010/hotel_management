@@ -56,22 +56,22 @@
                                 <div class="main-menu f-right d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="services.html">Service</a></li>
-                                            <li><a href="blog.html">Blog</a>
+                                            <li><a class=" text-decoration-none" href="{{ route('user.home') }}">Home</a></li>
+                                            <li><a class=" text-decoration-none" href="{{ route('user.about') }}">About</a></li>
+                                            <li><a class=" text-decoration-none" href="{{ route('user.service') }}">Service</a></li>
+                                            <li><a class=" text-decoration-none" href="#">Blog</a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="single-blog.html">Blog Details</a></li>
+                                                    <li><a class=" text-decoration-none" href="{{ route('user.blogs') }}">Blog</a></li>
+                                                    <li><a class=" text-decoration-none" href="{{ route('user.singleBlog') }}">Blog Details</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Pages</a>
+                                            <li><a class=" text-decoration-none" href="#">Pages</a>
                                                 <ul class="submenu">
-                                                    <li><a href="rooms.html">Rooms</a>
-                                                    <li><a href="elements.html">Element</a></li>
+                                                    <li><a class=" text-decoration-none" href="{{ route('user.rooms') }}">Rooms</a>
+                                                    <li><a class=" text-decoration-none" href="{{ route('user.element') }}">Element</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a class=" text-decoration-none" href="{{ route('user.contact') }}">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>

@@ -46,13 +46,13 @@
          <aside class="menu-sidebar2">
             <div class="logo">
                 <a href="#">
-                    <img src="images/icon/logo-white.png" alt="Cool Admin" />
+                    <img src="{{ asset('admin/images/icon/logo-white.png') }}" alt="Cool Admin" />
                 </a>
             </div>
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2">
                     <div class="image img-cir img-120">
-                        <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                        <img src="{{ asset('admin/images/icon/avatar-big-01.jpg') }}" alt="John Doe" />
                     </div>
                     <h4 class="name">john doe</h4>
                     <form action="{{ route('logout.user') }}" method="POST">
@@ -92,6 +92,11 @@
                                 <i class="fa-solid fa-comments"></i>Manage Complaints
                             </a>
                         </li>
+                        <li class="@if( Route::currentRouteName() === 'online.booking' ) active @endif has-sub">
+                            <a class="js-arrow text-decoration-none" href="{{ route('online.booking') }}">
+                                <i class="fa-solid fa-bed"></i>Online-Booking
+                            </a>
+                        </li>
                         <li class="@if( Route::currentRouteName() === 'admin.recycle' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.recycle') }}">
                                 <i class="fa-solid fa-recycle"></i>Recycle bin
@@ -112,7 +117,7 @@
                         <div class="header-wrap2">
                             <div class="logo d-block d-lg-none">
                                 <a href="#">
-                                    <img src="images/icon/logo-white.png" alt="CoolAdmin" />
+                                    <img src="{{ asset('admin/images/icon/logo-white.png') }}" alt="CoolAdmin" />
                                 </a>
                             </div>
                             <div class="header-button2">
@@ -216,7 +221,7 @@
                 <div class="menu-sidebar2__content js-scrollbar2">
                     <div class="account2">
                         <div class="image img-cir img-120">
-                            <img src="images/icon/avatar-big-01.jpg" alt="John Doe" />
+                            <img src="{{ asset('admin/images/icon/avatar-big-01.jpg') }}" alt="John Doe" />
                         </div>
                         <h4 class="name">john doe</h4>
                         <form action="{{ route('login.user') }}" method="POST">
@@ -229,9 +234,7 @@
                             <li class="active has-sub">
                                 <a class="js-arrow" href="#">
                                     <i class="fas fa-tachometer-alt"></i>Dashboard
-
                                 </a>
-
                             </li>
                             <li>
                                 <a href="inbox.html">

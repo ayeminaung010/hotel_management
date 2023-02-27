@@ -199,18 +199,11 @@
                                        <h1 class=" text-center  fs-6 text-secondary">There is no Recycle Data</h1>
                                     @endif
                                 </div>
-                                <div class="user-data__footer">
-                                    <button class="au-btn au-btn-load">load more</button>
-                                </div>
                             </div>
                             <!-- END USER DATA-->
                         </div>
 
                     </div>
-                </div>
-
-                <div class=" text-end">
-                    <button class=" btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
