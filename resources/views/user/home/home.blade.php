@@ -6,7 +6,8 @@
         <div class="slider-area ">
             <!-- Mobile Menu -->
             <div class="slider-active dot-style">
-                <div class="single-slider  hero-overly slider-height d-flex align-items-center" data-background="assets/img/hero/h1_hero.jpg" >
+                <div class="single-slider  hero-overly slider-height d-flex align-items-center"
+                    data-background="assets/img/hero/h1_hero.jpg">
                     <div class="container">
                         <div class="row justify-content-center text-center">
                             <div class="col-xl-9">
@@ -18,7 +19,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="single-slider  hero-overly slider-height d-flex align-items-center" data-background="assets/img/hero/h1_hero.jpg" >
+                <div class="single-slider  hero-overly slider-height d-flex align-items-center"
+                    data-background="assets/img/hero/h1_hero.jpg">
                     <div class="container">
                         <div class="row justify-content-center text-center">
                             <div class="col-xl-9">
@@ -30,7 +32,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="single-slider  hero-overly slider-height d-flex align-items-center" data-background="assets/img/hero/h1_hero.jpg" >
+                <div class="single-slider  hero-overly slider-height d-flex align-items-center"
+                    data-background="assets/img/hero/h1_hero.jpg">
                     <div class="container">
                         <div class="row justify-content-center text-center">
                             <div class="col-xl-9">
@@ -49,95 +52,109 @@
         <!-- Booking Room Start-->
         <div class="booking-area">
             <div class="container">
-               <div class="row ">
-               <div class="col-12">
-                <form action="">
-                <div class="booking-wrap d-flex justify-content-between align-items-center">
-
-                    <!-- select in date -->
-                    <div class="single-select-box mb-30">
-                        <!-- select out date -->
-                        <div class="boking-tittle">
-                            <span> Check In Date:</span>
-                        </div>
-                        <div class="boking-datepicker">
-                            <input id="datepicker1"  placeholder="10/12/2020" />
-                        </div>
-                   </div>
-                    <!-- Single Select Box -->
-                    <div class="single-select-box mb-30">
-                        <!-- select out date -->
-                        <div class="boking-tittle">
-                            <span>Check OutDate:</span>
-                        </div>
-                        <div class="boking-datepicker">
-                            <input id="datepicker2"  placeholder="12/12/2020" />
-                        </div>
-                   </div>
-                    <!-- Single Select Box -->
-                    <div class="single-select-box mb-30">
-                        <div class="boking-tittle">
-                            <span>Adults:</span>
-                        </div>
-                        <div class="select-this">
-                            <form action="#">
-                                <div class="select-itms">
-                                    <select name="select" id="select1">
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                        <option value="">3</option>
-                                        <option value="">4</option>
-                                    </select>
+                <div class="row ">
+                    <div class="col-12">
+                        <form action="{{ route('user.booking') }}" method="POST">
+                            @csrf
+                            <div class="booking-wrap d-flex justify-content-between align-items-center">
+                                <!-- select in date -->
+                                <div class="single-select-box mb-30">
+                                    <!-- select out date -->
+                                    <div class="boking-tittle">
+                                        <span> Check In Date:</span>
+                                    </div>
+                                    <div class="boking-datepicker">
+                                        <input id="datepicker1" name="check_in" value="{{ old('check_in') }}" placeholder="2/3/2023" />
+                                    </div>
+                                    @error('check_in')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
-                            </form>
-                        </div>
-                   </div>
-                    <!-- Single Select Box -->
-                    <div class="single-select-box mb-30">
-                        <div class="boking-tittle">
-                            <span>Children:</span>
-                        </div>
-                        <div class="select-this">
-                            <form action="#">
-                                <div class="select-itms">
-                                    <select name="select" id="select2">
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                        <option value="">3</option>
-                                        <option value="">4</option>
-                                    </select>
+                                @if(Auth::check())
+                                    <input type="hidden" name="user_id"  value="{{ Auth::user()->id }}">
+                                @endif
+                                <!-- Single Select Box -->
+                                <div class="single-select-box mb-30">
+                                    <!-- select out date -->
+                                    <div class="boking-tittle">
+                                        <span>Check OutDate:</span>
+                                    </div>
+                                    <div class="boking-datepicker">
+                                        <input id="datepicker2" name="check_out" value="{{ old('check_out') }}" placeholder="3/3/2023" />
+                                    </div>
+                                    @error('check_out')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
-                            </form>
-                        </div>
-                   </div>
-                    <!-- Single Select Box -->
-                    <div class="single-select-box mb-30">
-                        <div class="boking-tittle">
-                            <span>Rooms:</span>
-                        </div>
-                        <div class="select-this">
-                            <form action="#">
-                                <div class="select-itms">
-                                    <select name="select" id="select3">
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                        <option value="">3</option>
-                                        <option value="">4</option>
-                                    </select>
+                                <!-- Single Select Box -->
+                                <div class="single-select-box mb-30">
+                                    <div class="boking-tittle">
+                                        <span>Adults:</span>
+                                    </div>
+                                    <div class="select-this">
+                                        <div class="select-itms">
+                                            <select name="adult_people" id="select1">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @error('adult_people')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
-                            </form>
-                        </div>
-                   </div>
-                    <!-- Single Select Box -->
-                    <div class="single-select-box pt-45 mb-30">
-                        <a href="#" class="btn select-btn">Book Now</a>
-                   </div>
+                                <!-- Single Select Box -->
+                                <div class="single-select-box mb-30">
+                                    <div class="boking-tittle">
+                                        <span>Children:</span>
+                                    </div>
+                                    <div class="select-this">
+                                        <div class="select-itms">
+                                            <select name="child_people" id="select2">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @error('child_people')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <!-- Single Select Box -->
+                                <div class="single-select-box mb-30">
+                                    <div class="boking-tittle">
+                                        <span>Rooms:</span>
+                                    </div>
+                                    <div class="select-this">
+                                        <div class="select-itms">
+                                            <select name="room_amount" id="select3">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @error('room_amount')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <!-- Single Select Box -->
+                                <div class="single-select-box pt-45 mb-30">
+                                    <button type="submit" class="btn select-btn">Book Now</button>
+                                </div>
 
 
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
-               </div>
-               </div>
             </div>
         </div>
         <!-- Booking Room End-->
@@ -146,7 +163,7 @@
         <section class="make-customer-area customar-padding fix">
             <div class="container-fluid p-0">
                 <div class="row">
-                   <div class="col-xl-5 col-lg-6">
+                    <div class="col-xl-5 col-lg-6">
                         <div class="customer-img mb-120">
                             <img src="assets/img/customer/customar1.png" class="customar-img1" alt="">
                             <img src="assets/img/customer/customar2.png" class="customar-img2" alt="">
@@ -154,14 +171,16 @@
                                 <h3>25 Years of Service<br>Experience</h3>
                             </div>
                         </div>
-                   </div>
+                    </div>
                     <div class=" col-xl-4 col-lg-4">
                         <div class="customer-caption">
                             <span>About our company</span>
                             <h2>Make the customer the hero of your story</h2>
                             <div class="caption-details">
-                                <p class="pera-dtails">Lorem ipsum dolor sit amet, consectetur adipisic- ing elit, sed do eiusmod tempor inc. </p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud. </p>
+                                <p class="pera-dtails">Lorem ipsum dolor sit amet, consectetur adipisic- ing elit, sed do
+                                    eiusmod tempor inc. </p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud. </p>
                                 <a href="#" class="btn more-btn1">Learn More <i class="ti-angle-right"></i> </a>
                             </div>
                         </div>
@@ -186,94 +205,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-4 col-lg-6 col-md-6">
+                    @foreach ($roomTypes as  $roomType)
                         <!-- Single Room -->
-                        <div class="single-room mb-50">
-                            <div class="room-img">
-                               <a href="rooms.html"><img src="assets/img/rooms/room1.jpg" alt=""></a>
-                            </div>
-                            <div class="room-caption">
-                                <h3><a href="rooms.html">Classic Double Bed</a></h3>
-                                <div class="per-night">
-                                    <span><u>$</u>150 <span>/ par night</span></span>
+                        <div class="col-xl-4 col-lg-6 col-md-6">
+
+                            <div class="single-room mb-50">
+                                <div class="room-img">
+                                    <a href="rooms.html"><img src="assets/img/rooms/room1.jpg" alt=""></a>
+                                    {{-- <a href="rooms.html"><img src="{{ Cloudinary::getUrl($roomType->image) }}" alt=""></a> --}}
+                                </div>
+                                <div class="room-caption">
+                                    <h3><a href="rooms.html">{{ $roomType->name }}</a></h3>
+                                    <div class="per-night">
+                                        <span><u>$</u>{{ $roomType->price_per_night }} <span>/ per night</span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <!-- Single Room -->
-                        <div class="single-room mb-50">
-                            <div class="room-img">
-                               <a href="rooms.html"><img src="assets/img/rooms/room2.jpg" alt=""></a>
-                            </div>
-                            <div class="room-caption">
-                                <h3><a href="rooms.html">Classic Double Bed</a></h3>
-                                <div class="per-night">
-                                    <span><u>$</u>150 <span>/ par night</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <!-- Single Room -->
-                        <div class="single-room mb-50">
-                            <div class="room-img">
-                               <a href="rooms.html"> <img src="assets/img/rooms/room3.jpg" alt=""></a>
-                            </div>
-                            <div class="room-caption">
-                                <h3><a href="rooms.html">Classic Double Bed</a></h3>
-                                <div class="per-night">
-                                    <span><u>$</u>150 <span>/ par night</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <!-- Single Room -->
-                        <div class="single-room mb-50">
-                            <div class="room-img">
-                                <a href="rooms.html"><img src="assets/img/rooms/room4.jpg" alt=""></a>
-                            </div>
-                            <div class="room-caption">
-                                <h3><a href="rooms.html">Classic Double Bed</a></h3>
-                                <div class="per-night">
-                                    <span><u>$</u>150 <span>/ par night</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <!-- Single Room -->
-                        <div class="single-room mb-50">
-                            <div class="room-img">
-                                <a href="rooms.html"><img src="assets/img/rooms/room5.jpg" alt=""></a>
-                            </div>
-                            <div class="room-caption">
-                                <h3><a href="rooms.html">Classic Double Bed</a></h3>
-                                <div class="per-night">
-                                    <span><u>$</u>150 <span>/ par night</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <!-- Single Room -->
-                        <div class="single-room mb-50">
-                            <div class="room-img">
-                               <a href="rooms.html"> <img src="assets/img/rooms/room6.jpg" alt=""></a>
-                            </div>
-                            <div class="room-caption">
-                                <h3><a href="rooms.html">Classic Double Bed</a></h3>
-                                <div class="per-night">
-                                    <span><u>$</u>150 <span>/ par night</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="row justify-content-center">
                     <div class="room-btn pt-70">
-                        <a href="#" class="btn view-btn1">View more  <i class="ti-angle-right"></i> </a>
+                        <a href="#" class="btn view-btn1">View more <i class="ti-angle-right"></i> </a>
                     </div>
                 </div>
             </div>
@@ -291,7 +244,9 @@
                             <div class="dining-caption">
                                 <span>Our resturent</span>
                                 <h3>Dining & Drinks</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<br> tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim <br>veniam, quis nostrud.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<br> tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim <br>veniam, quis nostrud.
+                                </p>
                                 <a href="#" class="btn border-btn">Learn More <i class="ti-angle-right"></i> </a>
                             </div>
                         </div>
@@ -306,8 +261,10 @@
                             <div class="dining-caption text-right">
                                 <span>Our Pool</span>
                                 <h3>Swimming Pool</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<br> tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim <br>veniam, quis nostrud.</p>
-                                <a href="#" class="btn border-btn">Learn More  <i class="ti-angle-right"></i></a>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<br> tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim <br>veniam, quis nostrud.
+                                </p>
+                                <a href="#" class="btn border-btn">Learn More <i class="ti-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -319,7 +276,7 @@
         <!-- Testimonial Start -->
         <div class="testimonial-area testimonial-padding">
             <div class="container">
-               <div class="row justify-content-center">
+                <div class="row justify-content-center">
                     <div class="col-xl-9 col-lg-9 col-md-9">
                         <div class="h1-testimonial-active">
                             <!-- Single Testimonial -->
@@ -331,9 +288,11 @@
                                     </div>
                                     <h3 class="archivment-back">Testimonial</h3>
                                 </div>
-                                 <!-- Testimonial Content -->
+                                <!-- Testimonial Content -->
                                 <div class="testimonial-caption text-center">
-                                    <p>Yorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
+                                    <p>Yorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                        exercitation ullamco laboris nisi.
                                     </p>
                                     <!-- Rattion -->
                                     <div class="testimonial-ratting">
@@ -359,7 +318,9 @@
                                 </div>
                                 <!-- Testimonial Content -->
                                 <div class="testimonial-caption text-center">
-                                    <p>Yorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
+                                    <p>Yorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                        exercitation ullamco laboris nisi.
                                     </p>
                                     <div class="testimonial-ratting">
                                         <a href="#"><i class="fas fa-star"></i></a>
@@ -375,13 +336,13 @@
                             </div>
                         </div>
                     </div>
-               </div>
+                </div>
             </div>
         </div>
         <!-- Testimonial End -->
 
         <!-- Blog Start -->
-       <div class="blog-area blog-padding">
+        <div class="blog-area blog-padding">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-8">
@@ -399,15 +360,19 @@
                         <!-- Single Blog -->
                         <div class="single-blog mb-30">
                             <div class="blog-img">
-                                <a href="single-blog.html"><img src="assets/img/our_blog/blog-img1.jpg" alt=""></a>
+                                <a href="single-blog.html"><img src="assets/img/our_blog/blog-img1.jpg"
+                                        alt=""></a>
                             </div>
                             <div class="blog-caption">
                                 <div class="blog-cap-top d-flex justify-content-between mb-40">
                                     <span>news</span>
-                                    <ul><li>by<a href="#"> Jhon Guru</a></li></ul>
+                                    <ul>
+                                        <li>by<a href="#"> Jhon Guru</a></li>
+                                    </ul>
                                 </div>
                                 <div class="blog-cap-mid">
-                                    <p><a href="single-blog.html">5 Simple Tricks for Getting Stellar Hotel Service Wherever You Are</a></p>
+                                    <p><a href="single-blog.html">5 Simple Tricks for Getting Stellar Hotel Service
+                                            Wherever You Are</a></p>
                                 </div>
                                 <!-- Comments -->
                                 <div class="blog-cap-bottom d-flex justify-content-between">
@@ -421,15 +386,19 @@
                         <!-- Single Blog -->
                         <div class="single-blog mb-30">
                             <div class="blog-img">
-                               <a href="single-blog.html"> <img src="assets/img/our_blog/blog-img2.jpg" alt=""></a>
+                                <a href="single-blog.html"> <img src="assets/img/our_blog/blog-img2.jpg"
+                                        alt=""></a>
                             </div>
                             <div class="blog-caption">
                                 <div class="blog-cap-top d-flex justify-content-between mb-40">
                                     <span>news</span>
-                                    <ul><li>by<a href="#"> Jhon Guru</a></li></ul>
+                                    <ul>
+                                        <li>by<a href="#"> Jhon Guru</a></li>
+                                    </ul>
                                 </div>
                                 <div class="blog-cap-mid">
-                                    <p><a href="single-blog.html">5 Simple Tricks for Getting Stellar Hotel Service Wherever You Are</a></p>
+                                    <p><a href="single-blog.html">5 Simple Tricks for Getting Stellar Hotel Service
+                                            Wherever You Are</a></p>
                                 </div>
                                 <!-- Comments -->
                                 <div class="blog-cap-bottom d-flex justify-content-between">
@@ -443,15 +412,19 @@
                         <!-- Single Blog -->
                         <div class="single-blog mb-30">
                             <div class="blog-img">
-                                <a href="single-blog.html"><img src="assets/img/our_blog/blog-img3.jpg" alt=""></a>
+                                <a href="single-blog.html"><img src="assets/img/our_blog/blog-img3.jpg"
+                                        alt=""></a>
                             </div>
                             <div class="blog-caption">
                                 <div class="blog-cap-top d-flex justify-content-between mb-40">
                                     <span>news</span>
-                                    <ul><li>by<a href="#"> Jhon Guru</a></li></ul>
+                                    <ul>
+                                        <li>by<a href="#"> Jhon Guru</a></li>
+                                    </ul>
                                 </div>
                                 <div class="blog-cap-mid">
-                                    <p><a href="single-blog.html">5 Simple Tricks for Getting Stellar Hotel Service Wherever You Are</a></p>
+                                    <p><a href="single-blog.html">5 Simple Tricks for Getting Stellar Hotel Service
+                                            Wherever You Are</a></p>
                                 </div>
                                 <!-- Comments -->
                                 <div class="blog-cap-bottom d-flex justify-content-between">
@@ -463,7 +436,7 @@
                     </div>
                 </div>
             </div>
-       </div>
+        </div>
         <!-- Blog End -->
 
         <!-- Gallery img Start-->
@@ -488,5 +461,4 @@
         </div>
         <!-- Gallery img End-->
     </main>
-
 @endsection

@@ -26,6 +26,7 @@ Route::post('/auth/logout',[AuthController::class,'logout'])->name('logout.user'
 
 Route::prefix('user')->group(function () {
     Route::get('/home',[UserController::class,'home'])->name('user.home');
+    Route::post('/online-booking',[UserController::class,'booking'])->name('user.booking');
 
     Route::get('/about',[UserController::class,'about'])->name('user.about');
 
