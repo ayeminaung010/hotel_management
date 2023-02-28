@@ -79,7 +79,11 @@
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.rooms') }}">
                                 <i class="fa-solid fa-hotel"></i>Manage Rooms
                             </a>
-
+                        </li>
+                        <li class="@if( Route::currentRouteName() === 'index.roomType' ) active @endif has-sub">
+                            <a class="js-arrow text-decoration-none" href="{{ route('index.roomType') }}">
+                                <i class="fa-solid fa-list-ol"></i>Manage Room Types
+                            </a>
                         </li>
                         <li class="@if( Route::currentRouteName() === 'admin.staff' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.staff') }}">

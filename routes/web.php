@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\ReservationController;
 
 
@@ -86,6 +87,12 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
 
     Route::prefix('online-booking')->group(function () {
         Route::get('/',[BookingController::class,'list'])->name('online.booking');
+    });
+
+
+    Route::prefix('room-type')->group(function () {
+        Route::get('/',[RoomTypeController::class,'index'])->name("index.roomType");
+        Route::post('/create',[RoomTypeController::class,'store'])->name("store.roomType");
     });
 
 });
