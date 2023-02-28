@@ -33,13 +33,9 @@ Route::prefix('user')->group(function () {
 
     Route::get('/service',[UserController::class,'service'])->name('user.service');
 
-    Route::get('/blogs',[UserController::class,'blogs'])->name('user.blogs');
-
-    Route::get('/blogs/single-blog',[UserController::class,'singleBlog'])->name('user.singleBlog');
-
     Route::get('/pages/rooms',[UserController::class,'rooms'])->name('user.rooms');
-
-    Route::get('/pages/element',[UserController::class,'element'])->name('user.element');
+    Route::get('/rooms/detail/{id}',[UserController::class,'detail'])->name('detail.rooms');
+    Route::post('/booking-room',[UserController::class,'detailBooking'])->name('booking.detail.rooms');
 
     Route::get('/contact',[UserController::class,'contact'])->name('user.contact');
 });
@@ -93,6 +89,8 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
     Route::prefix('room-type')->group(function () {
         Route::get('/',[RoomTypeController::class,'index'])->name("index.roomType");
         Route::post('/create',[RoomTypeController::class,'store'])->name("store.roomType");
+        Route::get('/delete/{id}',[RoomTypeController::class,'delete'])->name("delete.roomType");
+        Route::post('/update/{id}',[RoomTypeController::class,'update'])->name("update.roomType");
     });
 
 });

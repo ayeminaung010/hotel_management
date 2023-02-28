@@ -88,6 +88,7 @@
                                                 <td>
                                                     <div class="">
                                                         {{-- <img src="{{ Storage::disk('dropbox')->get($roomType->image)  }}"  alt=""> --}}
+                                                        <img src="{{ asset('storage/img/roomTypes/'.$roomType->image) }}" alt="">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -108,7 +109,109 @@
                                                     </a>
                                                 </td>
                                             </tr>
+                                             {{-- delete modal  --}}
+                                             <div class="modal fade" id="delete{{ $roomType->id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Confirmation Changes</h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      Are You Sure to Delete {{ $roomType->name }}? <br>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <a href="{{ route('delete.roomType',$roomType->id) }}" class="btn btn-danger">Delete</a>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
 
+                                            {{-- Deail  modal  --}}
+                                            <div class="modal fade" id="detail{{ $roomType->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">{{$roomType->name }}</h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Room Name</label>
+                                                            <input type="text" class="form-control" value="{{ $roomType->name  }}" id="recipient-name" disabled>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Image</label>
+                                                            <img src="{{ asset('storage/img/roomTypes/'.$roomType->image)  }}" class="w-50" alt="">
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Price Per Night</label>
+                                                            <input type="text" class="form-control" value="{{ $roomType->price_per_night  }}" id="recipient-name" disabled>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Description</label>
+                                                            <textarea name="" id="" class="form-control" cols="30" rows="10">{{ $roomType->description  }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+
+                                            <!--update Modal -->
+                                            <div class="modal fade" id="edit{{ $roomType->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Room Types </h1>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('update.roomType',$roomType->id) }}" enctype="multipart/form-data" method="POST">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Name</label>
+                                                                <input type="text" value="{{ old('name',$roomType->name) }}" placeholder="Enter Room Type Name" name="name" class=" form-control ">
+                                                                @error('name')
+                                                                    <small class=" text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Image</label>
+                                                                <input type="file" name="image" class="form-control" id="">
+                                                                @error('image')
+                                                                    <small class=" text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Price Per Night</label>
+                                                                <input type="number" value="{{ old('price',$roomType->price_per_night) }}"  name="price" placeholder="Enter Price" class=" form-control ">
+                                                                @error('price')
+                                                                    <small class=" text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">Description</label>
+                                                                <textarea name="description"  id="description" placeholder="Enter Description" class=" form-control" cols="30" rows="10">{{ old('description',$roomType->description) }}</textarea>
+                                                                @error('description')
+                                                                    <small class=" text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary text-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary text-primary">Save</button>
+                                                        </div>
+                                                    </form>
+                                                  </div>
+                                                </div>
+                                            </div>
                                             @endforeach
                                         </tbody>
                                     </table>

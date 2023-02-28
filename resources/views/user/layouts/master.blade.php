@@ -59,16 +59,9 @@
                                             <li><a class=" text-decoration-none" href="{{ route('user.home') }}">Home</a></li>
                                             <li><a class=" text-decoration-none" href="{{ route('user.about') }}">About</a></li>
                                             <li><a class=" text-decoration-none" href="{{ route('user.service') }}">Service</a></li>
-                                            <li><a class=" text-decoration-none" href="#">Blog</a>
-                                                <ul class="submenu">
-                                                    <li><a class=" text-decoration-none" href="{{ route('user.blogs') }}">Blog</a></li>
-                                                    <li><a class=" text-decoration-none" href="{{ route('user.singleBlog') }}">Blog Details</a></li>
-                                                </ul>
-                                            </li>
                                             <li><a class=" text-decoration-none" href="#">Pages</a>
                                                 <ul class="submenu">
                                                     <li><a class=" text-decoration-none" href="{{ route('user.rooms') }}">Rooms</a>
-                                                    <li><a class=" text-decoration-none" href="{{ route('user.element') }}">Element</a></li>
                                                 </ul>
                                             </li>
                                             <li><a class=" text-decoration-none" href="{{ route('user.contact') }}">Contact</a></li>

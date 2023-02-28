@@ -36,12 +36,8 @@ class UserController extends Controller
 
     //rooms
     public function rooms(){
-        return view('user.pages.rooms');
-    }
-
-    //element
-    public function element(){
-        return view('user.pages.elements');
+        $roomTypes = RoomType::get();
+        return view('user.pages.rooms',compact('roomTypes'));
     }
 
     //contact
@@ -51,6 +47,23 @@ class UserController extends Controller
 
     //booking
     public function booking(Request $request){
+        $this->book($request);
+        return back()->with(['success' => 'Booking Success!']);
+    }
+
+    //detail
+    public function detail($id){
+        $roomType = RoomType::where('id',$id)->first();
+        return view('user.pages.room-detail',compact('roomType'));
+    }
+
+    //booking
+    public function detailBooking(Request $request){
+        $this->book($request);
+        return back()->with(['success' => 'Booking Success!']);
+    }
+
+    private function book($request){
         $request->validate([
             'check_in' => 'required',
             'check_out' => 'required',
@@ -64,7 +77,9 @@ class UserController extends Controller
         $booking->user_id = $request->user_id;
         $booking->number_of_guest = $request->adult_people;
         $booking->number_of_child = $request->child_people;
+        if($request->room_id){
+            $booking->room_type_id = $request->room_id;
+        }
         $booking->save();
-        return back()->with(['success' => 'Booking Success!']);
     }
 }

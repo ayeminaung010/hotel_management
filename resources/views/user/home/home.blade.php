@@ -211,11 +211,10 @@
 
                             <div class="single-room mb-50">
                                 <div class="room-img">
-                                    <a href="rooms.html"><img src="assets/img/rooms/room1.jpg" alt=""></a>
-                                    {{-- <a href="rooms.html"><img src="{{ Cloudinary::getUrl($roomType->image) }}" alt=""></a> --}}
+                                    <a href="rooms.html"><img src="{{ asset('storage/img/roomTypes/'. $roomType->image) }}" alt=""></a>
                                 </div>
                                 <div class="room-caption">
-                                    <h3><a href="rooms.html">{{ $roomType->name }}</a></h3>
+                                    <h3><a href="{{ route('detail.rooms', $roomType->id) }}">{{ $roomType->name }}</a></h3>
                                     <div class="per-night">
                                         <span><u>$</u>{{ $roomType->price_per_night }} <span>/ per night</span></span>
                                     </div>
@@ -226,7 +225,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="room-btn pt-70">
-                        <a href="#" class="btn view-btn1">View more <i class="ti-angle-right"></i> </a>
+                        <a href="{{ route('user.rooms') }}" class="btn view-btn1">View more <i class="ti-angle-right"></i> </a>
                     </div>
                 </div>
             </div>
