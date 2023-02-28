@@ -32,6 +32,22 @@
                 </div>
             </div>
             <div class="row">
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ session('error') }}</strong>
+                        <button type="button" class="btn-close align-middle" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                @endif
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}</strong>
+                        <button type="button" class="btn-close align-middle" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                @endif
                 <div class="col-xl-4 col-lg-6 col-md-6">
                     <!-- Single Room -->
                     <div class="single-room mb-50">

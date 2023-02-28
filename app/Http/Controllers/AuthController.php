@@ -29,11 +29,17 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required|min:6'
         ]);
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            return redirect()->route('dashboard');
+        $user = User::where('email',$request->email)->first();
+        if($user !== null){
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+                return redirect()->route('dashboard');
+            }else{
+                return back()->with(['error' => 'Password does not match']);
+            }
         }else{
-            return back()->with(['notFound' => 'User not found']);
+            return back()->with(['notFound' => 'User does not found']);
         }
+
     }
 
     //register

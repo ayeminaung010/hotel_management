@@ -52,6 +52,14 @@
         <!-- Booking Room Start-->
         <div class="booking-area">
             <div class="container">
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}</strong>
+                        <button type="button" class="btn-close align-middle" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                @endif
                 <div class="row ">
                     <div class="col-12">
                         <form action="{{ route('user.booking') }}" method="POST">
