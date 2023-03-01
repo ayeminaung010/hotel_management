@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->enum('gender', ['male', 'female','LGBT']);
             $table->enum('role', ['user', 'admin'])->default('user');
-            // $table->string('role',10)->default('user');
             $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();

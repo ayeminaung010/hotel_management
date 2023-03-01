@@ -54,7 +54,7 @@
                     <div class="image img-cir img-120">
                         <img src="{{ asset('admin/images/icon/avatar-big-01.jpg') }}" alt="John Doe" />
                     </div>
-                    <h4 class="name">john doe</h4>
+                    <h4 class="name">{{ auth()->user()->name }}</h4>
                     <form action="{{ route('logout.user') }}" method="POST">
                         @csrf
                         <button type="submit" class=" btn btn-outline-dark">Sign out</button>
@@ -91,11 +91,6 @@
                             </a>
 
                         </li>
-                        <li class=" has-sub">
-                            <a class="js-arrow text-decoration-none" href="">
-                                <i class="fa-solid fa-comments"></i>Manage Complaints
-                            </a>
-                        </li>
                         <li class="@if( Route::currentRouteName() === 'online.booking' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('online.booking') }}">
                                 <i class="fa-solid fa-bed"></i>Online-Booking
@@ -104,6 +99,11 @@
                         <li class="@if( Route::currentRouteName() === 'admin.recycle' ) active @endif has-sub">
                             <a class="js-arrow text-decoration-none" href="{{ route('admin.recycle') }}">
                                 <i class="fa-solid fa-recycle"></i>Recycle bin
+                            </a>
+                        </li>
+                        <li class="@if( Route::currentRouteName() === 'show.contact' ) active @endif has-sub">
+                            <a class="js-arrow text-decoration-none" href="{{ route('show.contact') }}">
+                                <i class="fa-solid fa-comments"></i>Contact Message
                             </a>
                         </li>
                     </ul>

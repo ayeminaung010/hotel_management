@@ -51,32 +51,59 @@
                 <h2 class="contact-title">Get in Touch</h2>
             </div>
             <div class="col-lg-8">
-                <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}</strong>
+                        <button type="button" class="btn-close align-middle" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                @endif
+                <form  action="{{ route('contact.send') }}"  method="post"  novalidate="novalidate">
+                    @csrf
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 my-3">
                             <div class="form-group">
-                                <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
+                                <label for="message">Message</label>
+                                <textarea name="message" class="  form-control" id="message" cols="30" rows="10"></textarea>
+                                @error('message')
+                                    <small class=" text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm my-3-6">
                             <div class="form-group">
-                                <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
+                                <label for="name">Name</label>
+                                <input type="text" class=" form-control" id="name" name="name">
+                                @error('name')
+                                    <small class=" text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm my-3-6">
                             <div class="form-group">
-                                <input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" class=" form-control" id="">
+                                @error('email')
+                                    <small class=" text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 my-3">
                             <div class="form-group">
-                                <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
+                                <label for="subject">Message</label>
+                                <input type="text" id="subject" name="subject" class=" form-control" id="">
+                                @error('subject')
+                                    <small class=" text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="form-group mt-3">
                         <button type="submit" class="button button-contactForm boxed-btn">Send</button>
                     </div>
+                    {{-- <input type="submit" value="Send" class=" btn btn-warning"> --}}
+
                 </form>
             </div>
             <div class="col-lg-3 offset-lg-1">
@@ -106,4 +133,8 @@
     </div>
 </section>
 <!-- ================ contact section end ================= -->
+@endsection
+
+@section('js')
+
 @endsection

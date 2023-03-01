@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\ReservationController;
 
@@ -37,7 +38,10 @@ Route::prefix('user')->group(function () {
     Route::get('/rooms/detail/{id}',[UserController::class,'detail'])->name('detail.rooms');
     Route::post('/booking-room',[UserController::class,'detailBooking'])->name('booking.detail.rooms');
 
-    Route::get('/contact',[UserController::class,'contact'])->name('user.contact');
+    Route::prefix('contact')->group(function () {
+        Route::get('/',[UserController::class,'contact'])->name('user.contact');
+        Route::post('/send',[UserController::class,'send'])->name("contact.send");
+    });
 });
 
 Route::prefix('admin')->middleware('admin_middleware')->group(function () {
@@ -92,6 +96,12 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::post('/create',[RoomTypeController::class,'store'])->name("store.roomType");
         Route::get('/delete/{id}',[RoomTypeController::class,'delete'])->name("delete.roomType");
         Route::post('/update/{id}',[RoomTypeController::class,'update'])->name("update.roomType");
+    });
+
+    Route::prefix('contact')->group(function () {
+        Route::get('/',[ContactController::class,'show'])->name('show.contact');
+        Route::get('/delete/{id}',[ContactController::class,'delete'])->name('delete.contact');
+        Route::post('/reply/{id}',[ContactController::class,'reply'])->name('reply.contactMessage');
     });
 
 });

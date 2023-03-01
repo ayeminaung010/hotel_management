@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Contact;
 use App\Models\RoomType;
 use App\Mail\BookingMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ContactRequest;
 
 class UserController extends Controller
 {
@@ -65,6 +67,20 @@ class UserController extends Controller
         return back()->with(['success' => 'Booking Success! Please check your gmail box... ']);
     }
 
+    //send
+    public function send(ContactRequest $request){
+        // dd($request->all());
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+        $contact->save();
+        return back()->with(['success' => 'Your Message Well Received!..Please wait Our Reply In your Mail Box : >']);
+    }
+
+
+    //private booking function
     private function book($request){
         $request->validate([
             'check_in' => 'required',

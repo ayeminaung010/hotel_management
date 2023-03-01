@@ -230,7 +230,7 @@
         <script src="{{ asset('user/assets/js/contact.js')}}"></script>
         <script src="{{ asset('user/assets/js/jquery.form.js')}}"></script>
         <script src="{{ asset('user/assets/js/jquery.validate.min.js')}}"></script>
-        <script src="{{ asset('user/assets/js/mail-script.js')}}"></script>
+        {{-- <script src="{{ asset('user/assets/js/mail-script.js')}}"></script> --}}
         <script src="{{ asset('user/assets/js/jquery.ajaxchimp.min.js')}}"></script>
 
         <!-- Jquery Plugins, main Jquery -->
