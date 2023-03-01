@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\RoomType;
+use App\Mail\BookingMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -48,7 +50,7 @@ class UserController extends Controller
     //booking
     public function booking(Request $request){
         $this->book($request);
-        return back()->with(['success' => 'Booking Success!']);
+        return back()->with(['success' => 'Booking Success!  Please check your gmail box... ']);
     }
 
     //detail
@@ -60,7 +62,7 @@ class UserController extends Controller
     //booking
     public function detailBooking(Request $request){
         $this->book($request);
-        return back()->with(['success' => 'Booking Success!']);
+        return back()->with(['success' => 'Booking Success! Please check your gmail box... ']);
     }
 
     private function book($request){
@@ -80,6 +82,7 @@ class UserController extends Controller
         if($request->room_id){
             $booking->room_type_id = $request->room_id;
         }
+        Mail::to($request->user())->send(new BookingMail($booking));
         $booking->save();
     }
 }

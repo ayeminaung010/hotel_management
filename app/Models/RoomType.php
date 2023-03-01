@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Rooms;
+use App\Models\Booking;
 use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,4 +24,9 @@ class RoomType extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
 }
+

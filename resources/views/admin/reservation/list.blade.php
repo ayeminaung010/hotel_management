@@ -35,6 +35,18 @@
     <!-- rooom detail  -->
     <div class="row justify-content-center mt-5">
         <div class="col-lg-11">
+            @if(session('success'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ session('success') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            @endif
             <form action="" method="post" novalidate="novalidate">
                 <div class="card">
                     <div class="card-header">Manage Reservations</div>

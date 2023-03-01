@@ -44,13 +44,18 @@ class AuthController extends Controller
 
     //register
     public function register(UserRequest $request){
-        $user  = new User();
-        $user->name = $request->username;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->gender = $request->gender;
-        $user->save();
-        return back()->with(['success' => 'Register success! Please Sign In']);
+        $registerUser = User::where('email',$request->email)->first();
+        if($registerUser === null){
+            $user  = new User();
+            $user->name = $request->username;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->gender = $request->gender;
+            $user->save();
+            return back()->with(['success' => 'Register success! Please Sign In']);
+        }else{
+            return back()->with(['error' => 'Email Already Taken!']);
+        }
     }
 
     //logout

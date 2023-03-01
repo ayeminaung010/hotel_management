@@ -83,6 +83,7 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
 
     Route::prefix('online-booking')->group(function () {
         Route::get('/',[BookingController::class,'list'])->name('online.booking');
+        Route::get('/delete/{id}',[BookingController::class,'delete'])->name('delete.booking');
     });
 
 
