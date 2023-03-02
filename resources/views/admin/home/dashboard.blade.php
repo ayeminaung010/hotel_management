@@ -20,8 +20,6 @@
                                 <li class="list-inline-item">Dashboard</li>
                             </ul>
                         </div>
-                        <button class="au-btn au-btn-icon au-btn--green">
-                            <i class="zmdi zmdi-plus"></i>add item</button>
                     </div>
                 </div>
             </div>
@@ -37,7 +35,7 @@
             <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <div class="statistic__item">
-                        <h2 class="number">10,368</h2>
+                        <h2 class="number">{{ count($rooms) }}</h2>
                         <span class="desc">Total Rooms</span>
                         <div class="icon">
                             <i class="fa-solid fa-bed"></i>
@@ -46,7 +44,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="statistic__item">
-                        <h2 class="number">388,688</h2>
+                        <h2 class="number">{{ count($reservations) }}</h2>
                         <span class="desc">Reservation</span>
                         <div class="icon">
                             <i class="fa-solid fa-bookmark"></i>
@@ -55,7 +53,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="statistic__item">
-                        <h2 class="number">1,086</h2>
+                        <h2 class="number">{{ count($staffs) }}</h2>
                         <span class="desc">staffs</span>
                         <div class="icon">
                             <i class="fa-solid fa-users"></i>
@@ -64,16 +62,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="statistic__item">
-                        <h2 class="number">$1,060,386</h2>
-                        <span class="desc">complaints</span>
-                        <div class="icon">
-                            <i class="fa-solid fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="statistic__item">
-                        <h2 class="number">$1,060,386</h2>
+                        <h2 class="number">{{ count($bookRooms) }}</h2>
                         <span class="desc">Booked Rooms</span>
                         <div class="icon">
                             <i class="fa-solid fa-list"></i>
@@ -82,7 +71,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="statistic__item">
-                        <h2 class="number">$1,060,386</h2>
+                        <h2 class="number">{{ count($availableRooms) }}</h2>
                         <span class="desc">Available Rooms</span>
                         <div class="icon">
                             <i class="fa-solid fa-circle-check"></i>
@@ -91,7 +80,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="statistic__item">
-                        <h2 class="number">$1,060,386</h2>
+                        <h2 class="number">{{ count($checkIn) }}</h2>
                         <span class="desc">Check In</span>
                         <div class="icon">
                             <i class="fa-solid fa-square-check"></i>
@@ -100,7 +89,7 @@
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="statistic__item">
-                        <h2 class="number">$1,060,386</h2>
+                        <h2 class="number">{{ count($pendingPayments) }}</h2>
                         <span class="desc">Total Pending Payments</span>
                         <div class="icon">
                             <i class="fa-solid fa-spinner"></i>
@@ -110,7 +99,7 @@
 
                 <div class="col-md-6 col-lg-6">
                     <div class="statistic__item">
-                        <h2 class="number">$1,060,386</h2>
+                        <h2 class="number">{{ count($totalEarning) }}</h2>
                         <span class="desc">Total Earning</span>
                         <div class="icon">
                             <i class="fa-solid fa-money-bill-1"></i>
@@ -120,7 +109,7 @@
 
                 <div class="col-md-6 col-lg-6">
                     <div class="statistic__item">
-                        <h2 class="number">$1,060,386</h2>
+                        <h2 class="number">{{ count($totalPending) }}</h2>
                         <span class="desc">Pending Payments</span>
                         <div class="icon">
                             <i class="fa-solid fa-credit-card"></i>

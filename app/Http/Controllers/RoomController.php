@@ -17,11 +17,6 @@ class RoomController extends Controller
         $rooms  = Rooms::all();
         $roomType  = RoomType::all();
         $card_types = IDCardType::get();
-        // foreach($rooms as $r){
-        //     if($r->reservation_id !== null){
-        //         dd($r->reservation->total_cost);
-        //     }
-        // }
         return view('admin.manage.rooms',compact('rooms','roomType','card_types'));
     }
 
@@ -58,7 +53,7 @@ class RoomController extends Controller
         $room = Rooms::where('id',$request->data['room_id'])->first();
 
         $room->reservation->user_bill = $room->reservation->user_bill +  $request->data['user_payment'];
-        $room->reservation->remaining_bill = $room->reservation->total_cost - $request->data['user_payment'];
+        $room->reservation->remaining_bill = $room->reservation->total_cost - $room->reservation->user_bill;
         $room->reservation->update();
         return response()->json(['success' => 'successfully check-in']);
     }
@@ -74,14 +69,19 @@ class RoomController extends Controller
             $room->reservation->update();
 
             if($room->reservation->remaining_bill === 0){
-                $reservation = Reservation::find($room->reservation_id);
-                logger($room->reservation_id);
-                $reservation->delete();
 
-                $room->booking_status = '0';
+                $reservation = Reservation::find($room->reservation_id);
+                $roomIds = json_decode($reservation->room_id);
+                foreach($roomIds as $roomId){
+                    logger($roomId);
+                    $singleRoom = Rooms::where('id',$roomId)->first();
+                    $singleRoom->booking_status = '0';
+
+                    $singleRoom->update();
+                }
                 $room->reservation_id = null;
                 $room->reservation->update();
-                $room->update();
+                $reservation->delete();
             }
             DB::commit();
             return response()->json(['success' => 'successfully checkout']);
