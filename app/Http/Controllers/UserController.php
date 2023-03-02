@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Booking;
 use App\Models\Contact;
 use App\Models\RoomType;
 use App\Mail\BookingMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ContactRequest;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -79,6 +83,50 @@ class UserController extends Controller
         return back()->with(['success' => 'Your Message Well Received!..Please wait Our Reply In your Mail Box : >']);
     }
 
+    //updateProfile
+    public function updateProfile(Request $request,$id){
+        // dd($request->all(),$id);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'gender' => 'required',
+            'avatar' => 'mimes:png,jpg,jpeg,webp'
+        ]);
+        $user = User::where('id',$id)->first();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->gender = $request->gender;
+        if( $request->avatar){
+            $oldImage = $user->avatar;
+            if($oldImage !== null){
+                Storage::delete('public/img/profile/'.$user->avatar);
+            }
+
+            $imageName = uniqid().'_'. $request->file('avatar')->getClientOriginalName();
+            $request->file('avatar')->storeAs('public/img/profile/',$imageName);
+            $user->avatar = $imageName;
+        }
+        $user->save();
+        return back()->with(['success' => 'Profile Updated']);
+    }
+
+    //passwordChange
+    public function passwordChange(Request $request,$id){
+        $request->validate([
+            'old_password' => 'required|min:6',
+            'new_password' => 'required|min:6',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+        $user = User::where('id',$id)->first();
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            Auth::logout();
+            return redirect()->back()->with('success', 'Password changed successfully');
+        } else {
+            return redirect()->back()->with('error', 'Current password does not match');
+        }
+    }
 
     //private booking function
     private function book($request){

@@ -52,7 +52,12 @@
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2">
                     <div class="image img-cir img-120">
-                        <img src="{{ asset('admin/images/icon/avatar-big-01.jpg') }}" alt="John Doe" />
+                        {{-- <img src="{{ asset('admin/images/icon/avatar-big-01.jpg') }}" alt="John Doe" /> --}}
+                        @if (Auth::user()->avatar === null)
+                            <img src="{{ asset('img/profile/Profile.png') }}" class="" alt="">
+                        @else
+                            <img src="{{ asset('storage/img/profile/'. Auth::user()->avatar) }}" class="" alt="">
+                        @endif
                     </div>
                     <h4 class="name">{{ auth()->user()->name }}</h4>
                     <form action="{{ route('logout.user') }}" method="POST">
@@ -151,24 +156,6 @@
                                                 <span class="date">April 12, 2018 06:50</span>
                                             </div>
                                         </div>
-                                        <div class="notifi__item">
-                                            <div class="bg-c2 img-cir img-40">
-                                                <i class="zmdi zmdi-account-box"></i>
-                                            </div>
-                                            <div class="content">
-                                                <p>Your account has been blocked</p>
-                                                <span class="date">April 12, 2018 06:50</span>
-                                            </div>
-                                        </div>
-                                        <div class="notifi__item">
-                                            <div class="bg-c3 img-cir img-40">
-                                                <i class="zmdi zmdi-file-text"></i>
-                                            </div>
-                                            <div class="content">
-                                                <p>You got a new file</p>
-                                                <span class="date">April 12, 2018 06:50</span>
-                                            </div>
-                                        </div>
                                         <div class="notifi__footer">
                                             <a href="#">All notifications</a>
                                         </div>
@@ -180,42 +167,167 @@
                                 <div class="setting-menu js-right-sidebar d-none d-lg-block">
                                     <div class="account-dropdown__body">
                                         <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-account"></i>Account</a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#profile">
+                                                <i class="zmdi zmdi-account"></i>Profile
+                                            </a>
                                         </div>
                                         <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-settings"></i>Setting</a>
-                                        </div>
-                                        <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-money-box"></i>Billing</a>
-                                        </div>
-                                    </div>
-                                    <div class="account-dropdown__body">
-                                        <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-globe"></i>Language</a>
-                                        </div>
-                                        <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-pin"></i>Location</a>
-                                        </div>
-                                        <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-email"></i>Email</a>
-                                        </div>
-                                        <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-notifications"></i>Notifications</a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#changePassword">
+                                                <i class="fa-solid fa-lock"></i>Password Change
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </header>
+            {{-- password change modal  --}}
+            <div class="modal fade" id="changePassword" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Account Password Change
+                            </h1>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('profile.passwordChange') }}"
+                            method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="recipient-name"
+                                        class="col-form-label">Old Password</label>
+                                    <input type="password" name="old_password"
+                                        value=""
+                                        class="form-control" placeholder="Enter Old Password">
+                                    @error('old_password')
+                                        <small
+                                            class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipient-name"
+                                        class="col-form-label">New Password</label>
+                                    <input type="password" name="new_password"
+                                        value=""
+                                        class="form-control" placeholder="Enter New Password">
+                                    @error('new_password')
+                                        <small
+                                            class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipient-name"
+                                        class="col-form-label">Retype-New Password</label>
+                                    <input type="password" name="confirm_password"
+                                        value=""
+                                        class="form-control" placeholder="Confirm Password">
+                                    @error('confirm_password')
+                                        <small
+                                            class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                    class="btn btn-secondary text-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                                <button type="submit"
+                                    class="btn btn-primary text-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- end  --}}
+            {{-- profile modal  --}}
+            <div class="modal fade" id="profile" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Profile
+                            </h1>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('profile.update') }}"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="avator"
+                                        class="col-form-label">Profile</label>
+                                    <div class=" d-flex justify-content-center">
+                                        @if (Auth::user()->avatar === null)
+                                            <img src="{{ asset('img/profile/Profile.png') }}" class=" w-50" alt="">
+                                        @else
+                                            <img src="{{ asset('storage/img/profile/'. Auth::user()->avatar) }}" class=" w-50" alt="">
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="file" name="avatar" id="avator"
+                                        class="form-control"  disabled>
+                                    @error('avatar')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="name"
+                                        class="col-form-label">Name</label>
+                                    <input type="text" name="name" id="name"
+                                        value="{{ Auth::user()->name }}"
+                                        class="form-control"  disabled>
+                                    @error('name')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email"
+                                        class="col-form-label">Email</label>
+                                    <input type="text" name="email" id="email"
+                                        value="{{ Auth::user()->email }}"
+                                        class="form-control"  disabled>
+                                    @error('email')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gender"
+                                        class="col-form-label">Gender</label>
+                                    <select name="gender" class="form-control" id="gender" disabled>
+                                        <option value="" >Select Gender</option>
+                                        <option value="male" @if(old('gender',Auth::user()->gender) === "male") selected @endif>Male</option>
+                                        <option value="female" @if(old('gender',Auth::user()->gender) === "female") selected @endif>Female</option>
+                                        <option value="lgbt" @if(old('gender',Auth::user()->gender) === "lgbt") selected @endif>LGBT</option>
+                                    </select>
+                                    @error('email')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                    class="btn btn-secondary text-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-dark text-primary" id="editBtn">Edit Profile</button>
+                                <button type="submit"  class="btn btn-dark text-primary d-none" id="updateBtn">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- end  --}}
             <aside class="menu-sidebar2 js-right-sidebar d-block d-lg-none">
                 <div class="logo">
                     <a href="#">
@@ -225,7 +337,11 @@
                 <div class="menu-sidebar2__content js-scrollbar2">
                     <div class="account2">
                         <div class="image img-cir img-120">
-                            <img src="{{ asset('admin/images/icon/avatar-big-01.jpg') }}" alt="John Doe" />
+                            @if (Auth::user()->avatar === null)
+                                <img src="{{ asset('img/profile/Profile.png') }}" class="" alt="">
+                            @else
+                                <img src="{{ asset('storage/img/profile/'. Auth::user()->avatar) }}" class="" alt="">
+                            @endif
                         </div>
                         <h4 class="name">john doe</h4>
                         <form action="{{ route('login.user') }}" method="POST">
@@ -392,6 +508,22 @@
 
 
 </body>
+<script>
+
+    const editBtn = document.querySelector('#editBtn');
+    const updateBtn = document.querySelector('#updateBtn');
+    editBtn.addEventListener('click',function(e){
+        const modal  = e.target.closest('.modal');
+        const inputTags = modal.querySelectorAll('input');
+        const selectBox = modal.querySelector('select');
+        inputTags.forEach((inputTag) => {
+            inputTag.removeAttribute('disabled');
+        })
+        selectBox.removeAttribute('disabled');
+        editBtn.classList.add('d-none');
+        updateBtn.classList.remove('d-none');
+    })
+</script>
 
 </html>
 <!-- end document-->

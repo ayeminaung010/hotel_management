@@ -42,6 +42,11 @@ Route::prefix('user')->group(function () {
         Route::get('/',[UserController::class,'contact'])->name('user.contact');
         Route::post('/send',[UserController::class,'send'])->name("contact.send");
     });
+
+    Route::prefix('profile')->group(function () {
+        Route::post('/update/{id}',[UserController::class,'updateProfile'])->name('UserProfile.update');
+        Route::post('/passwordChange/{id}',[UserController::class,'passwordChange'])->name('UserProfile.passwordChange');
+    });
 });
 
 Route::prefix('admin')->middleware('admin_middleware')->group(function () {
@@ -104,4 +109,8 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::post('/reply/{id}',[ContactController::class,'reply'])->name('reply.contactMessage');
     });
 
+    Route::prefix('profile')->group(function () {
+        Route::post('/update',[AdminController::class,'updateProfile'])->name('profile.update');
+        Route::post('/passwordChange',[AdminController::class,'passwordChange'])->name('profile.passwordChange');
+    });
 });

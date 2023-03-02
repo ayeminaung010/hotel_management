@@ -18,7 +18,6 @@ class RoomTypeController extends Controller
 
     //store
     public function store(RoomTypeRequest $request){
-        // dd($request->all());
         $roomType = new RoomType();
         $roomType->name = $request->name;
         $roomType->price_per_night = $request->price;
@@ -65,4 +64,6 @@ class RoomTypeController extends Controller
         $roomType->update();
         return back()->with(['success' => 'Room Type Created..']);
     }
+
+    
 }

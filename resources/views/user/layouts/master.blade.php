@@ -80,8 +80,8 @@
                                                 {{ Auth::user()->name }}
                                             </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                                                    <li><a class="dropdown-item" href="#">Password Change</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profile">Profile</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePassword">Password Change</a></li>
                                                     <li><hr class="dropdown-divider"></li>
                                                     <li>
                                                         <form action="{{ route('logout.user') }}" method="POST">
@@ -103,6 +103,7 @@
                                     </div>
                                 @endif
                             </div>
+
                             <!-- Mobile Menu -->
                             <div class="col-12">
                                 <div class="mobile_menu d-block d-lg-none"></div>
@@ -113,6 +114,152 @@
            </div>
             <!-- Header End -->
         </header>
+        @if ( Auth::check())
+          {{-- password change modal  --}}
+            <div class="modal fade" id="changePassword" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Account Password Change
+                            </h1>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('UserProfile.passwordChange',Auth::user()->id) }}"
+                            method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="recipient-name"
+                                        class="col-form-label">Old Password</label>
+                                    <input type="password" name="old_password"
+                                        value=""
+                                        class="form-control" placeholder="Enter Old Password">
+                                    @error('old_password')
+                                        <small
+                                            class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipient-name"
+                                        class="col-form-label">New Password</label>
+                                    <input type="password" name="new_password"
+                                        value=""
+                                        class="form-control" placeholder="Enter New Password">
+                                    @error('new_password')
+                                        <small
+                                            class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipient-name"
+                                        class="col-form-label">Retype-New Password</label>
+                                    <input type="password" name="confirm_password"
+                                        value=""
+                                        class="form-control" placeholder="Confirm Password">
+                                    @error('confirm_password')
+                                        <small
+                                            class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                    class="btn btn-secondary text-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                                <button type="submit"
+                                    class="btn btn-primary text-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- end  --}}
+            {{-- profile modal  --}}
+            <div class="modal fade" id="profile" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Profile
+                            </h1>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('UserProfile.update',Auth::user()->id) }}"
+                            method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="avator"
+                                        class="col-form-label">Avatar</label>
+                                    <div class=" d-flex justify-content-center">
+                                        @if (Auth::user()->avatar === null)
+                                            <img src="{{ asset('img/profile/Profile.png') }}" class=" w-50" alt="">
+                                        @else
+                                            <img src="{{ asset('storage/img/profile/'. Auth::user()->avatar) }}" class=" w-50" alt="">
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="file" name="avatar" id="avator"
+                                        class="form-control"  disabled>
+                                    @error('avatar')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="name"
+                                        class="col-form-label">Name</label>
+                                    <input type="text" name="name" id="name"
+                                        value="{{ Auth::user()->name }}"
+                                        class="form-control"  disabled>
+                                    @error('name')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email"
+                                        class="col-form-label">Email</label>
+                                    <input type="text" name="email" id="email"
+                                        value="{{ Auth::user()->email }}"
+                                        class="form-control"  disabled>
+                                    @error('email')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gender" class="col-form-label">Gender</label>
+                                    <select name="gender" class="form-control" id="gender" >
+                                        <option value="" >Select Gender</option>
+                                        <option value="male" @if(old('gender',Auth::user()->gender) === "male") selected @endif>Male</option>
+                                        <option value="female" @if(old('gender',Auth::user()->gender) === "female") selected @endif>Female</option>
+                                        <option value="lgbt" @if(old('gender',Auth::user()->gender) === "LGBT") selected @endif>LGBT</option>
+                                    </select>
+                                    @error('email')
+                                        <small class=" text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                    class="btn btn-secondary text-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-dark text-primary" id="editBtn">Edit Profile</button>
+                                <button type="submit"  class="btn btn-dark text-primary d-none" id="updateBtn">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- end  --}}
+        @endif
+
         @yield('content')
        <footer>
            <!-- Footer Start-->
@@ -238,4 +385,20 @@
         <script src="{{ asset('user/assets/js/main.js')}}"></script>
 
     </body>
+    <script>
+
+        const editBtn = document.querySelector('#editBtn');
+        const updateBtn = document.querySelector('#updateBtn');
+        editBtn.addEventListener('click',function(e){
+            const modal  = e.target.closest('.modal');
+            const inputTags = modal.querySelectorAll('input');
+            const selectBox = modal.querySelector('#gender');
+            inputTags.forEach((inputTag) => {
+                inputTag.removeAttribute('disabled');
+            })
+            selectBox.removeAttribute('disabled');
+            editBtn.classList.add('d-none');
+            updateBtn.classList.remove('d-none');
+        })
+    </script>
 </html>
