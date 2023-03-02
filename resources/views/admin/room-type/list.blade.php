@@ -40,8 +40,6 @@
         <div class="col-lg-11">
             <form action="" method="post" novalidate="novalidate">
                 @if (count($roomTypes) !== 0)
-
-
                 <div class="card">
                     <div class="card-header">Manage Room Types</div>
                     <div class="row">
@@ -49,19 +47,11 @@
                             <!-- USER DATA-->
                             <div class="user-data m-b-40">
                                 <div class="filters m-b-45">
-                                    <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
-                                        <select class="js-select2" name="property">
-                                            <option selected="selected">All Properties</option>
-                                            <option value="">Products</option>
-                                            <option value="">Services</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
                                     <div class="rs-select2--dark rs-select2--sm rs-select2--border">
-                                        <select class="js-select2 au-select-dark" name="time">
-                                            <option selected="selected">All Time</option>
-                                            <option value="">By Month</option>
-                                            <option value="">By Day</option>
+                                        <select class="js-select2 au-select-dark"  id="roomTypeDate">
+                                            <option value=''>All Time</option>
+                                            <option value="asc">Lastest</option>
+                                            <option value="desc">Oldest</option>
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                     </div>
@@ -77,7 +67,7 @@
                                                 <td>Date</td>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id='dataContainer'>
                                             @foreach ($roomTypes as  $roomType)
                                             <tr>
                                                 <td>
@@ -87,7 +77,6 @@
                                                 </td>
                                                 <td>
                                                     <div class="">
-                                                        {{-- <img src="{{ Storage::disk('dropbox')->get($roomType->image)  }}"  alt=""> --}}
                                                         <img src="{{ asset('storage/img/roomTypes/'.$roomType->image) }}" alt="">
                                                     </div>
                                                 </td>

@@ -7,6 +7,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RoomTypeController;
@@ -47,6 +48,8 @@ Route::prefix('user')->group(function () {
         Route::post('/update/{id}',[UserController::class,'updateProfile'])->name('UserProfile.update');
         Route::post('/passwordChange/{id}',[UserController::class,'passwordChange'])->name('UserProfile.passwordChange');
     });
+
+
 });
 
 Route::prefix('admin')->middleware('admin_middleware')->group(function () {
@@ -113,4 +116,9 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
         Route::post('/update',[AdminController::class,'updateProfile'])->name('profile.update');
         Route::post('/passwordChange',[AdminController::class,'passwordChange'])->name('profile.passwordChange');
     });
+
+    //ajax
+    Route::get('/filter-booking',[FilterController::class,'booking'])->name('booking-filter');
+    Route::get('/filter-roomType',[FilterController::class,'roomType'])->name('roomType-filter');
+    Route::get('/filter-roomTypeDate',[FilterController::class,'roomTypeDate'])->name('roomTypeDate-filter');
 });

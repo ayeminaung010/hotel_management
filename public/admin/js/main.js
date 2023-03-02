@@ -1279,8 +1279,8 @@
         window.location.href = url;
       }
     });
-  
-  
+
+
   })(jQuery);
 (function ($) {
   // USE STRICT
@@ -1311,7 +1311,7 @@
 
   // Europe Map
   try {
-    
+
     var vmap1 = $('#vmap1');
     if(vmap1[0]) {
       vmap1.vectorMap( {
@@ -1330,7 +1330,7 @@
 
   // USA Map
   try {
-    
+
     var vmap2 = $('#vmap2');
 
     if(vmap2[0]) {
@@ -1360,7 +1360,7 @@
 
   // Germany Map
   try {
-    
+
     var vmap3 = $('#vmap3');
     if(vmap3[0]) {
       vmap3.vectorMap( {
@@ -1375,14 +1375,14 @@
         }
       });
     }
-    
+
   } catch (error) {
     console.log(error);
   }
-  
+
   // France Map
   try {
-    
+
     var vmap4 = $('#vmap4');
     if(vmap4[0]) {
       vmap4.vectorMap( {
@@ -1421,10 +1421,10 @@
   } catch (error) {
     console.log(error);
   }
-  
+
   // Brazil Map
   try {
-    
+
     var vmap6 = $('#vmap6');
     if(vmap6[0]) {
       vmap6.vectorMap( {
@@ -1481,7 +1481,7 @@
   try {
     var jscr1 = $('.js-scrollbar1');
     if(jscr1[0]) {
-      const ps1 = new PerfectScrollbar('.js-scrollbar1');      
+      const ps1 = new PerfectScrollbar('.js-scrollbar1');
     }
 
     var jscr2 = $('.js-scrollbar2');
@@ -1506,7 +1506,9 @@
       $(this).select2({
         minimumResultsForSearch: 20,
         dropdownParent: $(this).next('.dropDownSelect2')
+
       });
+
     });
 
   } catch (error) {
@@ -1519,7 +1521,7 @@
   // USE STRICT
   "use strict";
 
-  // Dropdown 
+  // Dropdown
   try {
     var menu = $('.js-item-menu');
     var sub_menu_is_showed = -1;
@@ -1527,7 +1529,7 @@
     for (var i = 0; i < menu.length; i++) {
       $(menu[i]).on('click', function (e) {
         e.preventDefault();
-        $('.js-right-sidebar').removeClass("show-sidebar");        
+        $('.js-right-sidebar').removeClass("show-sidebar");
         if (jQuery.inArray(this, menu) == sub_menu_is_showed) {
           $(this).toggleClass('show-dropdown');
           sub_menu_is_showed = -1;
@@ -1578,7 +1580,7 @@
       right_sidebar.removeClass("show-sidebar");
 
     });
- 
+
 
   // Sublist Sidebar
   try {
@@ -1646,7 +1648,7 @@
   "use strict";
 
   try {
-    
+
     $('[data-toggle="tooltip"]').tooltip();
 
   } catch (error) {
@@ -1664,10 +1666,206 @@
         $(this).parent().parent().parent().toggleClass('show-chat-box');
       });
     });
-    
+
 
   } catch (error) {
     console.log(error);
   }
 
 })(jQuery);
+
+$(document).ready(function() {
+    //booking status filter
+    const selectElement = $('#bookingStatus');
+    selectElement.on('change', function () {
+      const selectedValue = $(this).val();
+      $.ajax({
+        type : 'get',
+        url  : '/admin/filter-booking',
+        data : {'bookingStatus' : selectedValue},
+        dataType : 'json',
+        success  : function(response){
+            console.log(response[1].room_type.name);
+            $data = '';
+            for (let i = 0; i < response.length; i++) {
+                $data += `
+                <tr >
+                    <td>
+                        <div class="table-data__info">
+                            <span>
+                                <a href="#">${response[i].room_no}</a>
+                            </span>
+                        </div>
+                    </td>
+                    <td class=" w-25">
+                        <span class="">${response[i].room_type.name}</span>
+                    </td>
+                    <td>
+                        <div class="rs-select2--trans rs-select2--sm">
+                            <select class="js-select2" name="property" disabled>
+                                <option value="0" ${response[i].booking_status === '0' ? 'selected' : ''})>
+                                    Available</option>
+                                <option value="1" ${response[i].booking_status === '1' ? 'selected' : ''}>
+                                    Booked</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        ${response[i].booking_status === '1' ?
+                        `<a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkIn${response[i].id}">Check In</a>` :
+                        `<a href="/reservation" class="btn btn-info">Check In</a>`}
+                    </td>
+                    <td>
+                        ${response[i].booking_status === '1' ?
+                        `<a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkOut${response[i].id}">Check Out</a>` :
+                        ''}
+                    </td>
+                    <td>
+                        <a href="#" data-bs-toggle="modal"
+                            data-bs-target="#edit${response[i].id}"
+                            class=" btn btn-outline-secondary edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a href="#" data-bs-toggle="modal"
+                            data-bs-target="#detail${response[i].id}"
+                            class=" btn btn-outline-secondary edit">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                        <a href="#" data-bs-toggle="modal"
+                            data-bs-target="#delete${response[i].id}"
+                            class=" btn btn-outline-secondary edit">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </a>
+                    </td>
+                </tr>
+                `;
+
+                $('#dataContainer').html($data);
+            }
+        }
+    })
+    });
+
+    //room type status filter in manage room
+    $('#roomTypeStatus').on('change',function(){
+        const roomTypeValue = $(this).val();
+        console.log(roomTypeValue);
+        $.ajax({
+            type : 'get',
+            url  : '/admin/filter-roomType',
+            data : {'roomTypeStatus' : roomTypeValue},
+            dataType : 'json',
+            success  : function(response){
+                console.log(response[1].room_type.name);
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    $data += `
+                    <tr >
+                        <td>
+                            <div class="table-data__info">
+                                <span>
+                                    <a href="#">${response[i].room_no}</a>
+                                </span>
+                            </div>
+                        </td>
+                        <td class=" w-25">
+                            <span class="">${response[i].room_type.name}</span>
+                        </td>
+                        <td>
+                            <div class="rs-select2--trans rs-select2--sm">
+                                <select class="js-select2" name="property" disabled>
+                                    <option value="0" ${response[i].booking_status === '0' ? 'selected' : ''})>
+                                        Available</option>
+                                    <option value="1" ${response[i].booking_status === '1' ? 'selected' : ''}>
+                                        Booked</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            ${response[i].booking_status === '1' ?
+                            `<a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkIn${response[i].id}">Check In</a>` :
+                            `<a href="/admin/reservation" class="btn btn-info">Check In</a>`}
+                        </td>
+                        <td>
+                            ${response[i].booking_status === '1' ?
+                            `<a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkOut${response[i].id}">Check Out</a>` :
+                            ''}
+                        </td>
+                        <td>
+                            <a href="#" data-bs-toggle="modal"
+                                data-bs-target="#edit${response[i].id}"
+                                class=" btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal"
+                                data-bs-target="#detail${response[i].id}"
+                                class=" btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal"
+                                data-bs-target="#delete${response[i].id}"
+                                class=" btn btn-outline-secondary edit">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    `;
+
+                    $('#dataContainer').html($data);
+                }
+            }
+        })
+    })
+
+
+    //room type filter date
+    $('#roomTypeDate').on('change',function(){
+        const roomTypeDateValue = $(this).val();
+        console.log(roomTypeDateValue);
+        $.ajax({
+            type : 'get',
+            url  : '/admin/filter-roomTypeDate',
+            data : {'roomTypeDate' : roomTypeDateValue},
+            dataType : 'json',
+            success  : function(response){
+                console.log(response[1]);
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    $data += `
+                    <tr>
+                        <td>
+                            <div class="table-data__info">
+                                <h6>${response[i].name}</h6>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <img src="/storage/img/roomTypes/${response[i].image}" alt="">
+                            </div>
+                        </td>
+                        <td>
+                            <span class="">${response[i].price_per_night} $</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].description.substring(0, 100) + '...'}</span>
+                        </td>
+                        <td>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#edit${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#detail${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    `;
+
+                    $('#dataContainer').html($data);
+                }
+            }
+        })
+    })
+  });

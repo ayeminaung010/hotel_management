@@ -10,7 +10,6 @@
                     <div class="col-md-12">
                         <div class="au-breadcrumb-content">
                             <div class="au-breadcrumb-left">
-
                                 <ul class="list-unstyled list-inline au-breadcrumb__list">
                                     <li class="list-inline-item active">
                                         <a href="#">Home</a>
@@ -46,18 +45,23 @@
                                 <div class="user-data m-b-40">
                                     <div class="filters m-b-45">
                                         <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
-                                            <select class="js-select2" name="property">
+                                            {{-- <select class="js-select2" id="bookingStatus">
                                                 <option value="">All Booking</option>
                                                 <option value="0">Book</option>
+                                                <option value="1">Booked</option>
+                                            </select> --}}
+                                            <select class="js-select2" id="bookingStatus">
+                                                <option value="">All Booking</option>
+                                                <option value="0">Available</option>
                                                 <option value="1">Booked</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
                                         <div class="rs-select2--dark rs-select2--md rs-select2--border">
-                                            <select class="js-select2" name="property">
+                                            <select class="js-select2 roomTypeStatus" name="" id="roomTypeStatus">
                                                 <option value="">All Room Types</option>
                                                 @foreach ($roomType as $type)
-                                                    <option value="">{{ $type->name }}</option>
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
                                                 @endforeach
                                             </select>
                                             <div class="dropDownSelect2"></div>
@@ -75,9 +79,9 @@
                                                     <td>Action</td>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="dataContainer">
                                                 @foreach ($rooms as $room)
-                                                    <tr>
+                                                    <tr >
                                                         <td>
                                                             <div class="table-data__info">
                                                                 <span>
@@ -96,7 +100,7 @@
                                                                     <option value="1" @selected($room->booking_status === '1')>
                                                                         Booked</option>
                                                                 </select>
-                                                                <div class="dropDownSelect2"></div>
+                                                                {{-- <div class="dropDownSelect2"></div> --}}
                                                             </div>
                                                         </td>
                                                         <td>
@@ -349,7 +353,7 @@
                                                                                 class="col-form-label">Room No</label>
                                                                             <input type="text" name="room_no"
                                                                                 value="{{ $room->room_no }}"
-                                                                                class="form-control" id="recipient-name">
+                                                                                class="form-control" >
                                                                             @error('room_no')
                                                                                 <small
                                                                                     class=" text-danger">{{ $message }}</small>
@@ -587,6 +591,18 @@
     <script>
         const checkInBtns = document.querySelectorAll('#checkInBtn');
         const checkOutBtns = document.querySelectorAll('#checkOutBtn');
+        // const bookingStatus = document.querySelector('#bookingStatus');
+        // const roomTypeStatus = document.querySelector('#roomTypeStatus');
+        // document.querySelector('#roomTypeStatus').addEventListener('change',function(){
+        //     console.log('hii');
+        // })
+        // console.log(document.querySelector('#bookingStatus'));
+        // console.dir(roomTypeStatus);
+        // bookingStatus.addEventListener('change',function() {
+        //     console.log(bookingStatus);
+        // })
+
+
 
         checkInBtns.forEach((checkInBtn) => {
             checkInBtn.addEventListener('click', function(e) {
@@ -627,7 +643,6 @@
                 location.reload();
             }
         }
-
 
         checkOutBtns.forEach((checkOutBtn) => {
             checkOutBtn.addEventListener('click', function(e) {
