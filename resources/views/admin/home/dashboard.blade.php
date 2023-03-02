@@ -99,7 +99,7 @@
 
                 <div class="col-md-6 col-lg-6">
                     <div class="statistic__item">
-                        <h2 class="number">{{ count($totalEarning) }}</h2>
+                        <h2 class="number">{{ $totalEarning }} $</h2>
                         <span class="desc">Total Earning</span>
                         <div class="icon">
                             <i class="fa-solid fa-money-bill-1"></i>
@@ -109,7 +109,7 @@
 
                 <div class="col-md-6 col-lg-6">
                     <div class="statistic__item">
-                        <h2 class="number">{{ count($totalPending) }}</h2>
+                        <h2 class="number">{{ $totalPending }} $</h2>
                         <span class="desc">Pending Payments</span>
                         <div class="icon">
                             <i class="fa-solid fa-credit-card"></i>
