@@ -1818,17 +1818,139 @@ $(document).ready(function() {
     })
 
 
+    //room type status filter in manage room
+    $('#room_no_search').on('change',function(){
+        const searchData = $(this).val();
+        console.log(searchData);
+        $.ajax({
+            type : 'get',
+            url  : '/admin/search-room-no',
+            data : {'search' : searchData},
+            dataType : 'json',
+            success  : function(response){
+                console.log(response);
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    $data += `
+                    <tr >
+                        <td>
+                            <div class="table-data__info">
+                                <span>
+                                    <a href="#">${response[i].room_no}</a>
+                                </span>
+                            </div>
+                        </td>
+                        <td class=" w-25">
+                            <span class="">${response[i].room_type.name}</span>
+                        </td>
+                        <td>
+                            <div class="rs-select2--trans rs-select2--sm">
+                                <select class="js-select2" name="property" disabled>
+                                    <option value="0" ${response[i].booking_status === '0' ? 'selected' : ''})>
+                                        Available</option>
+                                    <option value="1" ${response[i].booking_status === '1' ? 'selected' : ''}>
+                                        Booked</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            ${response[i].booking_status === '1' ?
+                            `<a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkIn${response[i].id}">Check In</a>` :
+                            `<a href="/admin/reservation" class="btn btn-info">Check In</a>`}
+                        </td>
+                        <td>
+                            ${response[i].booking_status === '1' ?
+                            `<a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#checkOut${response[i].id}">Check Out</a>` :
+                            ''}
+                        </td>
+                        <td>
+                            <a href="#" data-bs-toggle="modal"
+                                data-bs-target="#edit${response[i].id}"
+                                class=" btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal"
+                                data-bs-target="#detail${response[i].id}"
+                                class=" btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal"
+                                data-bs-target="#delete${response[i].id}"
+                                class=" btn btn-outline-secondary edit">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    `;
+
+                    $('#dataContainer').html($data);
+                }
+            }
+        })
+    })
+
     //room type filter date
     $('#roomTypeDate').on('change',function(){
         const roomTypeDateValue = $(this).val();
-        console.log(roomTypeDateValue);
         $.ajax({
             type : 'get',
             url  : '/admin/filter-roomTypeDate',
             data : {'roomTypeDate' : roomTypeDateValue},
             dataType : 'json',
             success  : function(response){
-                console.log(response[1]);
+                console.log(response);
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    $data += `
+                    <tr>
+                        <td>
+                            <div class="table-data__info">
+                                <h6>${response[i].name}</h6>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <img src="/storage/img/roomTypes/${response[i].image}" alt="">
+                            </div>
+                        </td>
+                        <td>
+                            <span class="">${response[i].price_per_night} $</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].description.substring(0, 100) + '...'}</span>
+                        </td>
+                        <td>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#edit${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#detail${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    `;
+
+                    $('#dataContainer').html($data);
+
+                }
+            }
+        })
+    })
+
+    //room_type_search
+    $('#room_type_search').on('change',function(){
+        const searchData = $(this).val();
+        console.log(searchData);
+        $.ajax({
+            type : 'get',
+            url  : '/admin/search-room-type',
+            data : {'search' : searchData},
+            dataType : 'json',
+            success  : function(response){
+                console.log(response);
                 $data = '';
                 for (let i = 0; i < response.length; i++) {
                     $data += `
@@ -1868,4 +1990,124 @@ $(document).ready(function() {
             }
         })
     })
+
+
+    //staff filter date
+    $('#workTimeSort').on('change',function(){
+        const workTimeSortValue = $(this).val();
+        console.log(workTimeSortValue);
+        $.ajax({
+            type : 'get',
+            url  : '/admin/filter-workTimeSort',
+            data : {'workTimeSort' : workTimeSortValue},
+            dataType : 'json',
+            success  : function(response){
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    var date = new Date(response[i].created_at);
+                    var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                    var newDate = date.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+                    $data += `
+                    <tr>
+                        <td>
+                            <div class="table-data__info">
+                                <h6>${response[i].name}</h6>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="rs-select2--trans rs-select2--sm text-info">
+                                ${response[i].position['name']}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="">${response[i].working_time.working_date}</span>
+                        </td>
+                        <td>
+                            <span class="">${newDate}</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].salary} $</span>
+                        </td>
+                        <td>
+                            <a href="#" class=" btn btn-warning" data-bs-toggle="modal" data-bs-target="#staff${response[i].id}">Change Work Time</a>
+                        </td>
+                        <td>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#edit${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#detail${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    `;
+                    $('#dataContainer').html($data);
+                }
+            }
+        })
+    })
+
+
+    //staff filter date
+    $('#searchData').on('change',function(){
+        const searchDataValue = $(this).val();
+        $.ajax({
+            type : 'get',
+            url  : '/admin/search-staff',
+            data : {'searchData' : searchDataValue},
+            dataType : 'json',
+            success  : function(response){
+                console.log(response);
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    var date = new Date(response[i].created_at);
+                    var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                    var newDate = date.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+                    $data += `
+                    <tr>
+                        <td>
+                            <div class="table-data__info">
+                                <h6>${response[i].name}</h6>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="rs-select2--trans rs-select2--sm text-info">
+                                ${response[i].position['name']}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="">${response[i].working_time.working_date}</span>
+                        </td>
+                        <td>
+                            <span class="">${newDate}</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].salary} $</span>
+                        </td>
+                        <td>
+                            <a href="#" class=" btn btn-warning" data-bs-toggle="modal" data-bs-target="#staff${response[i].id}">Change Work Time</a>
+                        </td>
+                        <td>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#edit${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#detail${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete${response[i].id}" class=" mx-1 my-1 btn btn-outline-secondary edit">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    `;
+                    $('#dataContainer').html($data);
+                }
+            }
+        })
+    })
+
+
   });

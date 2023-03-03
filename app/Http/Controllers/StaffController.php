@@ -19,7 +19,6 @@ class StaffController extends Controller
 
     //change
     public function change(Request $request,$id){
-        // dd($id);
         $staff  = Staff::where('id',$id)->first();
         $staff->working_time_id = $request->work_time;
         $staff->save();
@@ -27,7 +26,6 @@ class StaffController extends Controller
     }
 
     public function delete($id){
-        // dd($id);
         $result = Staff::where('id',$id)->delete();
         if($result){
             return back()->with(['success'=> 'deleted successfully']);
