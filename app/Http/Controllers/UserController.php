@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\BookingRealTimeNoti;
+use Illuminate\Support\Facades\Notification;
 
 class UserController extends Controller
 {
@@ -73,19 +75,20 @@ class UserController extends Controller
 
     //send
     public function send(ContactRequest $request){
-        // dd($request->all());
         $contact = new Contact();
         $contact->name = $request->name;
         $contact->email = $request->email;
         $contact->subject = $request->subject;
         $contact->message = $request->message;
         $contact->save();
+        $user = User::where('role','admin')->first();
+        Notification::send($user, new BookingRealTimeNoti($contact));
+        
         return back()->with(['success' => 'Your Message Well Received!..Please wait Our Reply In your Mail Box : >']);
     }
 
     //updateProfile
     public function updateProfile(Request $request,$id){
-        // dd($request->all(),$id);
         $request->validate([
             'name' => 'required',
             'email' => 'required',

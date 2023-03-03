@@ -76,7 +76,7 @@
                                         <div class="header-btn">
                                             <!-- Example single danger button -->
                                             <div class="btn-group">
-                                            <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button type="button" id="userProfile" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {{ Auth::user()->name }}
                                             </button>
                                                 <ul class="dropdown-menu">
@@ -386,19 +386,21 @@
 
     </body>
     <script>
-
-        const editBtn = document.querySelector('#editBtn');
-        const updateBtn = document.querySelector('#updateBtn');
-        editBtn.addEventListener('click',function(e){
-            const modal  = e.target.closest('.modal');
-            const inputTags = modal.querySelectorAll('input');
-            const selectBox = modal.querySelector('#gender');
-            inputTags.forEach((inputTag) => {
-                inputTag.removeAttribute('disabled');
+        const userProfile  = document.querySelector('#userProfile');
+        if(userProfile ){
+            const editBtn = document.querySelector('#editBtn');
+            const updateBtn = document.querySelector('#updateBtn');
+            editBtn.addEventListener('click',function(e){
+                const modal  = e.target.closest('.modal');
+                const inputTags = modal.querySelectorAll('input');
+                const selectBox = modal.querySelector('#gender');
+                inputTags.forEach((inputTag) => {
+                    inputTag.removeAttribute('disabled');
+                })
+                selectBox.removeAttribute('disabled');
+                editBtn.classList.add('d-none');
+                updateBtn.classList.remove('d-none');
             })
-            selectBox.removeAttribute('disabled');
-            editBtn.classList.add('d-none');
-            updateBtn.classList.remove('d-none');
-        })
+        }
     </script>
 </html>
