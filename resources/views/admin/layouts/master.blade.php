@@ -6,8 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
+    <meta name="author" content="KOOKO">
     <meta name="keywords" content="au theme template">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Title Page-->
     <title>Hotel Management</title>
@@ -37,7 +39,20 @@
     <link href="{{ asset('admin/css/theme.css') }}" rel="stylesheet" media="all">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
 
+        window.onload=function(){
+            const userId = document.querySelector('#userId');
+            window.Echo.private('booking-message')
+            .listen('BookingMessage', (e) => console.log('Private RealTimeMessage: ' + e.message));
+
+            window.Echo.private('App.Models.User.' + userId.value)
+            .notification((notification) => {
+                console.log(notification);
+            });
+
+        }
+    </script>
 </head>
 
 <body class="animsition">
@@ -51,6 +66,7 @@
             </div>
             <div class="menu-sidebar2__content js-scrollbar1">
                 <div class="account2">
+                    <input type="hidden" name="userId" id="userId" value="{{ Auth::user()->id }}">
                     <div class="image img-cir img-120">
                         {{-- <img src="{{ asset('admin/images/icon/avatar-big-01.jpg') }}" alt="John Doe" /> --}}
                         @if (Auth::user()->avatar === null)
@@ -110,6 +126,7 @@
                             <a class="js-arrow text-decoration-none" href="{{ route('show.contact') }}">
                                 <i class="fa-solid fa-comments"></i>Contact Message
                             </a>
+
                         </li>
                     </ul>
                 </nav>
@@ -141,21 +158,29 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="header-button-item has-noti js-item-menu">
+                                <div class="header-button-item @if(Auth::user()->unreadNotifications) has-noti @endif js-item-menu">
                                     <i class="zmdi zmdi-notifications"></i>
                                     <div class="notifi-dropdown js-dropdown">
                                         <div class="notifi__title">
-                                            <p>You have 3 Notifications</p>
+                                            <p>You have {{ Auth::user()->unreadNotifications->count() }} Notifications</p>
                                         </div>
-                                        <div class="notifi__item">
-                                            <div class="bg-c1 img-cir img-40">
-                                                <i class="zmdi zmdi-email-open"></i>
+                                        @foreach (Auth::user()->unreadNotifications as $notification)
+                                            <div class="notifi__item">
+                                                <div class="bg-c1 img-cir img-40">
+                                                    <i class="zmdi zmdi-email-open"></i>
+                                                </div>
+                                                <div class="content">
+                                                    <div class=" d-flex flex-column gap-2">
+                                                        <p> {{ $notification->data['name'] }}</p>
+                                                        <span class="text-black-50">{{ $notification->data['subject'] }}</span>
+                                                    </div>
+                                                    <div class=" d-flex justify-content-between">
+                                                        <span class="date">{{ $notification->created_at->format('d-M-Y') }}</span>
+                                                        <span class="date">{{ $notification->created_at->diffForHumans() }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="content">
-                                                <p>You got a email notification</p>
-                                                <span class="date">April 12, 2018 06:50</span>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                         <div class="notifi__footer">
                                             <a href="#">All notifications</a>
                                         </div>
