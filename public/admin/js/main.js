@@ -1818,7 +1818,7 @@ $(document).ready(function() {
     })
 
 
-    //room type status filter in manage room
+    //room no search
     $('#room_no_search').on('change',function(){
         const searchData = $(this).val();
         console.log(searchData);

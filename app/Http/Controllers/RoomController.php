@@ -14,9 +14,11 @@ class RoomController extends Controller
 {
     //show
     public function show(){
-        $rooms  = Rooms::all();
+        $rooms  = Rooms::get();
+        // $rooms  = Rooms::orderBy('created_at','desc')->paginate(20);
         $roomType  = RoomType::all();
         $card_types = IDCardType::get();
+        // dd($rooms);
         return view('admin.manage.rooms',compact('rooms','roomType','card_types'));
     }
 

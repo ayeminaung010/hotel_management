@@ -59,6 +59,9 @@ class FilterController extends Controller
     //searchRoomNo
     public function searchRoomNo(Request $request){
         $rooms = Rooms::where('room_no','like','%'.$request->search.'%')
+                        ->orWhereHas('roomType', function ($query) use ($request) {
+                            $query->where('name', 'like', '%'.$request->search.'%');
+                        })
                         ->with('roomType')->get();
         return response()->json($rooms,200);
     }
@@ -71,7 +74,6 @@ class FilterController extends Controller
 
     //searchReservation
     public function searchReservation(Request $request){
-        logger($request->search);
         $reservations = Reservation::where('first_name','like','%'.$request->search.'%')
                         ->orWhere('last_name','like','%'.$request->search.'%')
                         ->orWhere('email','like','%'.$request->search.'%')

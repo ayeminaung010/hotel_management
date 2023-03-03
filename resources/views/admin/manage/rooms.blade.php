@@ -529,7 +529,7 @@
                                     </table>
                                 </div>
                                 <div class="user-data__footer">
-                                    <a href="#" class="au-btn au-btn-load">load more</a>
+                                    {{-- <a href="#" class="au-btn au-btn-load">{{ $rooms->links() }}</a> --}}
                                 </div>
                             </div>
                             <!-- END USER DATA-->
