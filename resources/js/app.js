@@ -1,4 +1,5 @@
 import './bootstrap';
+import "toastify-js/src/toastify.css"
 
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';

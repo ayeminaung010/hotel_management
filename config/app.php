@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
+        Brian2694\Toastr\ToastrServiceProvider::class,
 
     ],
 
@@ -212,7 +213,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-
+        'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
     ])->toArray(),
 
 ];

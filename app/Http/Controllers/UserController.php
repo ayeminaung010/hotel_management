@@ -8,6 +8,7 @@ use App\Models\Contact;
 use App\Models\RoomType;
 use App\Mail\BookingMail;
 use Illuminate\Http\Request;
+use App\Events\BookingMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -58,6 +59,7 @@ class UserController extends Controller
     //booking
     public function booking(Request $request){
         $this->book($request);
+        event(new BookingMessage('New Booking Received....'));
         return back()->with(['success' => 'Booking Success!  Please check your gmail box... ']);
     }
 
@@ -70,6 +72,7 @@ class UserController extends Controller
     //booking
     public function detailBooking(Request $request){
         $this->book($request);
+        event(new BookingMessage('New Booking Received....'));
         return back()->with(['success' => 'Booking Success! Please check your gmail box... ']);
     }
 
@@ -83,7 +86,7 @@ class UserController extends Controller
         $contact->save();
         $user = User::where('role','admin')->first();
         Notification::send($user, new BookingRealTimeNoti($contact));
-        
+
         return back()->with(['success' => 'Your Message Well Received!..Please wait Our Reply In your Mail Box : >']);
     }
 

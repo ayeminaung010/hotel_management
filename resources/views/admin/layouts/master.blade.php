@@ -44,11 +44,61 @@
         window.onload=function(){
             const userId = document.querySelector('#userId');
             window.Echo.private('booking-message')
-            .listen('BookingMessage', (e) => console.log('Private RealTimeMessage: ' + e.message));
+            .listen('BookingMessage', (e) => {
+                Toastify({
+                  text: e.message,
+                  duration: 3000,
+                  destination: "https://github.com/apvarun/toastify-js",
+                  newWindow: true,
+                  close: true,
+                  gravity: "top",
+                  position: "right",
+                  stopOnFocus: true,
+                  style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                  },
+                  onClick: function(){}
+                }).showToast();
+            });
 
             window.Echo.private('App.Models.User.' + userId.value)
             .notification((notification) => {
-                console.log(notification);
+                const noti = JSON.parse(notification.message);
+                Toastify({
+                  text: "New Contact Message Received...",
+                  duration: 3000,
+                  destination: "https://github.com/apvarun/toastify-js",
+                  newWindow: true,
+                  close: true,
+                  gravity: "top",
+                  position: "right",
+                  stopOnFocus: true,
+                  style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                  },
+                  onClick: function(){}
+                }).showToast();
+
+                const notiContainer = document.querySelector('#notiContainer');
+                let data = '';
+                data += `
+                    <div class="notifi__item">
+                        <div class="bg-c1 img-cir img-40">
+                            <i class="zmdi zmdi-email-open"></i>
+                        </div>
+                        <div class="content">
+                            <div class=" d-flex flex-column gap-2">
+                                <p>${noti.name}</p>
+                                <span class="text-black-50">${noti.subject}</span>
+                            </div>
+                            <div class=" d-flex justify-content-between">
+                                <span class="date">${noti.created_at}</span>
+                                <span class="date">${noti.created_at}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                notiContainer.innerHTML  = data;
             });
 
         }
@@ -164,23 +214,25 @@
                                         <div class="notifi__title">
                                             <p>You have {{ Auth::user()->unreadNotifications->count() }} Notifications</p>
                                         </div>
-                                        @foreach (Auth::user()->unreadNotifications as $notification)
-                                            <div class="notifi__item">
-                                                <div class="bg-c1 img-cir img-40">
-                                                    <i class="zmdi zmdi-email-open"></i>
-                                                </div>
-                                                <div class="content">
-                                                    <div class=" d-flex flex-column gap-2">
-                                                        <p> {{ $notification->data['name'] }}</p>
-                                                        <span class="text-black-50">{{ $notification->data['subject'] }}</span>
+                                        <div class="notiContainer" id="notiContainer">
+                                            @foreach (Auth::user()->unreadNotifications as $notification)
+                                                <div class="notifi__item">
+                                                    <div class="bg-c1 img-cir img-40">
+                                                        <i class="zmdi zmdi-email-open"></i>
                                                     </div>
-                                                    <div class=" d-flex justify-content-between">
-                                                        <span class="date">{{ $notification->created_at->format('d-M-Y') }}</span>
-                                                        <span class="date">{{ $notification->created_at->diffForHumans() }}</span>
+                                                    <div class="content">
+                                                        <div class=" d-flex flex-column gap-2">
+                                                            <p> {{ $notification->data['name'] }}</p>
+                                                            <span class="text-black-50">{{ $notification->data['subject'] }}</span>
+                                                        </div>
+                                                        <div class=" d-flex justify-content-between">
+                                                            <span class="date">{{ $notification->created_at->format('d-M-Y') }}</span>
+                                                            <span class="date">{{ $notification->created_at->diffForHumans() }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        </div>
                                         <div class="notifi__footer">
                                             <a href="#">All notifications</a>
                                         </div>

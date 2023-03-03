@@ -65,5 +65,4 @@ class RoomTypeController extends Controller
         return back()->with(['success' => 'Room Type Created..']);
     }
 
-    
 }
