@@ -2109,5 +2109,131 @@ $(document).ready(function() {
         })
     })
 
+    $('#reservationSort').on('change',function(){
+        const reservationSort = $(this).val();
+        console.log(reservationSort);
+        $.ajax({
+            type : 'get',
+            url  : '/admin/filter-reservationSort',
+            data : {'reservationSort' : reservationSort},
+            dataType : 'json',
+            success  : function(response){
+                console.log(response);
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    var date = new Date(response[i].created_at);
+                    var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                    var newDate = date.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+                    $data += `
+                    <tr>
+                        <td class=" w-25">
+                            <div class="">
+                                <span class="">${response[i].first_name +' ' + response[i].last_name}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class=" ">
+                                <span class="text-black-50">${response[i].email}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="">${response[i].phone_no}</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].number_of_guest}</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].number_of_child === null ? 'none' : response[i].number_of_child}</span>
+                        </td>
+                        <td  class=" w-25">
+                            <span class=" ">${newDate} </span>
+                        </td>
+                        <td class=" w-25">
+                            <span class="">${response[i].total_cost} $</span>
+                        </td>
+                        <td >
+                            <div class=" flex gap-2 flex-wrap">
+                                <a href="/admin/reservation/edit/${response[i].id}" class=" btn btn-outline-secondary edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a href="#"  data-bs-toggle="modal" data-bs-target="#detail${response[i].id}" class=" btn btn-outline-secondary detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete${response[i].id}" class=" btn btn-outline-secondary edit">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    `;
+                    $('#dataContainer').html($data);
+                }
+            }
+        })
+    })
+
+    $('#reservation_search').on('change',function(){
+        const searchData = $(this).val();
+        console.log(searchData);
+        $.ajax({
+            type : 'get',
+            url  : '/admin/search-reservation',
+            data : {'search' : searchData},
+            dataType : 'json',
+            success  : function(response){
+                console.log(response);
+                $data = '';
+                for (let i = 0; i < response.length; i++) {
+                    var date = new Date(response[i].created_at);
+                    var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                    var newDate = date.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+                    $data += `
+                    <tr>
+                        <td class=" w-25">
+                            <div class="">
+                                <span class="">${response[i].first_name +' ' + response[i].last_name}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class=" ">
+                                <span class="text-black-50">${response[i].email}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="">${response[i].phone_no}</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].number_of_guest}</span>
+                        </td>
+                        <td>
+                            <span class="">${response[i].number_of_child === null ? 'none' : response[i].number_of_child}</span>
+                        </td>
+                        <td  class=" w-25">
+                            <span class=" ">${newDate} </span>
+                        </td>
+                        <td class=" w-25">
+                            <span class="">${response[i].total_cost} $</span>
+                        </td>
+                        <td >
+                            <div class=" flex gap-2 flex-wrap">
+                                <a href="/admin/reservation/edit/${response[i].id}" class=" btn btn-outline-secondary edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a href="#"  data-bs-toggle="modal" data-bs-target="#detail${response[i].id}" class=" btn btn-outline-secondary detail">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#delete${response[i].id}" class=" btn btn-outline-secondary edit">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    `;
+                    $('#dataContainer').html($data);
+                }
+            }
+        })
+    })
+
 
   });

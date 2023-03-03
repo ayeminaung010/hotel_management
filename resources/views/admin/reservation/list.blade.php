@@ -54,22 +54,19 @@
                         <!-- USER DATA-->
                         <div class="user-data m-b-40">
                             @if ( count($reservations) !== 0)
-                            <div class="filters m-b-45">
-                                <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
-                                    <select class="js-select2" name="property">
-                                        <option selected="selected">All Properties</option>
-                                        <option value="">Products</option>
-                                        <option value="">Services</option>
-                                    </select>
-                                    <div class="dropDownSelect2"></div>
+                            <div class="d-flex justify-content-between">
+                                <div class="filters m-b-45">
+                                    <div class="rs-select2--dark rs-select2--sm rs-select2--border">
+                                        <select class="js-select2 au-select-dark"  id="reservationSort">
+                                            <option value=''>All Time</option>
+                                            <option value="asc">Lastest</option>
+                                            <option value="desc">Oldest</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
                                 </div>
-                                <div class="rs-select2--dark rs-select2--sm rs-select2--border">
-                                    <select class="js-select2 au-select-dark" name="time">
-                                        <option selected="selected">All Time</option>
-                                        <option value="">By Month</option>
-                                        <option value="">By Day</option>
-                                    </select>
-                                    <div class="dropDownSelect2"></div>
+                                <div class="">
+                                    <input type="text" class="" id="reservation_search" placeholder="Search...">
                                 </div>
                             </div>
                             <div class="table-responsive table-data">
@@ -86,7 +83,7 @@
                                             <td>Action</td>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="dataContainer">
                                         @foreach ($reservations as  $reservation)
                                         <tr>
                                             <td class=" w-25">
@@ -159,40 +156,40 @@
                                                 <div class="modal-body">
                                                   <form>
                                                     <div class="mb-3">
-                                                      <label for="recipient-name" class="col-form-label">Check In Date</label>
-                                                      <input type="text" class="form-control" value="{{ $reservation->check_in  }}" id="recipient-name" disabled>
+                                                      <label for="" class="col-form-label">Check In Date</label>
+                                                      <input type="text" class="form-control" value="{{ $reservation->check_in  }}"  disabled>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Check Out Date</label>
-                                                        <input type="text" class="form-control" value="{{ $reservation->check_out  }}" id="recipient-name" disabled>
+                                                        <label for="" class="col-form-label">Check Out Date</label>
+                                                        <input type="text" class="form-control" value="{{ $reservation->check_out  }}"  disabled>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Room Type</label>
+                                                        <label for="" class="col-form-label">Room Type</label>
                                                         @foreach ($reservationRoomTypes[$reservation->id] as $reservationType)
-                                                            <input type="text" class="form-control" value="{{ $reservationType->name }}" id="recipient-name" disabled>
+                                                            <input type="text" class="form-control" value="{{ $reservationType->name }}"  disabled>
                                                         @endforeach
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Room No</label>
+                                                        <label for="" class="col-form-label">Room No</label>
                                                         @foreach ($reservationRoomNos[$reservation->id] as $roomNo)
-                                                            <input type="text" class="form-control" value="{{ $roomNo->room_no }}" id="recipient-name" disabled>
+                                                            <input type="text" class="form-control" value="{{ $roomNo->room_no }}"  disabled>
                                                         @endforeach
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Card Type </label>
-                                                        <input type="text" class="form-control" value="{{ $reservation->card_type->card_type  }}" id="recipient-name" disabled>
+                                                        <label for="" class="col-form-label">Card Type </label>
+                                                        <input type="text" class="form-control" value="{{ $reservation->card_type->card_type  }}"  disabled>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Card No </label>
-                                                        <input type="text" class="form-control" value="{{ $reservation->card_number  }}" id="recipient-name" disabled>
+                                                        <label for="" class="col-form-label">Card No </label>
+                                                        <input type="text" class="form-control" value="{{ $reservation->card_number  }}"  disabled>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Address </label>
-                                                        <input type="text" class="form-control" value="{{ $reservation->residential_address  }}" id="recipient-name" disabled>
+                                                        <label for="" class="col-form-label">Address </label>
+                                                        <input type="text" class="form-control" value="{{ $reservation->residential_address  }}"  disabled>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">Total Cose </label>
-                                                        <input type="text" class="form-control" value="{{ $reservation->total_cost  }} $" id="recipient-name" disabled>
+                                                        <label for="" class="col-form-label">Total Cose </label>
+                                                        <input type="text" class="form-control" value="{{ $reservation->total_cost  }} $"  disabled>
                                                     </div>
                                                   </form>
                                                 </div>

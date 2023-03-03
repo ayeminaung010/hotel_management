@@ -314,7 +314,7 @@
         check_out.addEventListener('change',function(){
             totalpriceFun()
         })
-
+        totalpriceFun();
         function totalpriceFun(){
             if (check_in.value && check_out.value) {
                 const checkInDate = new Date(check_in.value);

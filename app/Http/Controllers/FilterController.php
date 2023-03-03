@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Rooms;
 use App\Models\Staff;
 use App\Models\RoomType;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class FilterController extends Controller
@@ -60,5 +61,25 @@ class FilterController extends Controller
         $rooms = Rooms::where('room_no','like','%'.$request->search.'%')
                         ->with('roomType')->get();
         return response()->json($rooms,200);
+    }
+
+    //reservationSort
+    public function reservationSort(Request $request){
+        $reservations = Reservation::orderBy('created_at',$request->reservationSort)->get();
+        return response()->json($reservations,200);
+    }
+
+    //searchReservation
+    public function searchReservation(Request $request){
+        logger($request->search);
+        $reservations = Reservation::where('first_name','like','%'.$request->search.'%')
+                        ->orWhere('last_name','like','%'.$request->search.'%')
+                        ->orWhere('email','like','%'.$request->search.'%')
+                        ->orWhere('phone_no','like','%'.$request->search.'%')
+                        ->orWhere('card_number','like','%'.$request->search.'%')
+                        ->orWhere('residential_address','like','%'.$request->search.'%')
+                        ->get();
+        return response()->json($reservations,200);
+
     }
 }

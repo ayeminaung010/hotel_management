@@ -122,7 +122,9 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
     Route::get('/filter-roomType',[FilterController::class,'roomType'])->name('roomType-filter');
     Route::get('/filter-roomTypeDate',[FilterController::class,'roomTypeDate'])->name('roomTypeDate-filter');
     Route::get('/filter-workTimeSort',[FilterController::class,'workTimeSort'])->name('workTimeSort-filter');
+    Route::get('/filter-reservationSort',[FilterController::class,'reservationSort'])->name('reservationSort-filter');
     Route::get('/search-staff',[FilterController::class,'searchStaff'])->name('searchStaff');
     Route::get('/search-room-type',[FilterController::class,'searchRoomType'])->name('searchRoomType');
     Route::get('/search-room-no',[FilterController::class,'searchRoomNo'])->name('searchRoomNo');
+    Route::get('/search-reservation',[FilterController::class,'searchReservation'])->name('searchReservation');
 });
