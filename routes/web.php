@@ -26,6 +26,12 @@ Route::view('/register', 'app.register');
 Route::post('/auth/login',[AuthController::class,'login'])->name('login.user');
 Route::post('/auth/register',[AuthController::class,'register'])->name('register.user');
 Route::post('/auth/logout',[AuthController::class,'logout'])->name('logout.user')->middleware('auth');
+Route::get('/auth/forgot-password',[AuthController::class,'forgotPassword'])->name('forgotPassword');
+Route::post('/auth/otp-request',[AuthController::class,'OTPRequest'])->name('OTPRequest');
+Route::post('/auth/otp-rq-again',[AuthController::class,'OTPSendAgain'])->name('OTPSendAgain');
+Route::post('/auth/otp-verify',[AuthController::class,'OTPverify'])->name('OTPverify');
+Route::post('/auth/change-password',[AuthController::class,'changePassword'])->name('changePassword');
+
 
 Route::prefix('user')->group(function () {
     Route::get('/home',[UserController::class,'home'])->name('user.home');

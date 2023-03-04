@@ -34,10 +34,12 @@
 
     <!-- Main CSS-->
     <link href="{{ asset('admin/css/theme.css') }}" rel="stylesheet" media="all">
-
+    {{-- toaster cdn  --}}
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 </head>
 
 <body class="animsition">
+
 
     @yield('content')
 
@@ -66,6 +68,8 @@
     <script src="{{ asset('admin/vendor/vector-map/jquery.vmap.sampledata.js')}}"></script>
     <script src="{{ asset('admin/vendor/vector-map/jquery.vmap.world.js')}}"></script>
 
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    {!! Toastr::message() !!}
     <!-- Main JS-->
     <script src="{{ asset('admin/js/main.js') }}"></script>
 
