@@ -127,4 +127,7 @@ Route::prefix('admin')->middleware('admin_middleware')->group(function () {
     Route::get('/search-room-type',[FilterController::class,'searchRoomType'])->name('searchRoomType');
     Route::get('/search-room-no',[FilterController::class,'searchRoomNo'])->name('searchRoomNo');
     Route::get('/search-reservation',[FilterController::class,'searchReservation'])->name('searchReservation');
+
+    //noti setting on/off
+    Route::get('/notification',[AdminController::class,'notification'])->name('notification');
 });

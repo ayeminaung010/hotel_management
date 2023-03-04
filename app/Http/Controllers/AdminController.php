@@ -85,4 +85,16 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Current password does not match');
         }
     }
+
+    //notification
+    public function notification(Request $request){
+        $user = User::where('id',Auth::user()->id)->first();
+        if($request->notiCheckStatus === 'true'){
+            $user->notification_sound_enabled = 1;
+        }else{
+            $user->notification_sound_enabled = 0;
+        }
+        $user->save();
+        return response()->json(['success' => 'Notification Setting Changes..'],200);
+    }
 }

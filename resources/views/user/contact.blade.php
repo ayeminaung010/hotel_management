@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-12 my-3">
                             <div class="form-group">
-                                <label for="subject">Message</label>
+                                <label for="subject">Subject</label>
                                 <input type="text" id="subject" name="subject" class=" form-control" id="">
                                 @error('subject')
                                     <small class=" text-danger">{{ $message }}</small>

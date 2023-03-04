@@ -42,7 +42,28 @@
     <script>
 
         window.onload=function(){
+            const audio = document.querySelector('audio');
+
             const userId = document.querySelector('#userId');
+            const notiCheck = document.querySelector('#noti-check');
+            notiCheck.addEventListener('change',function(){
+                const notiCheckValue =  notiCheck.checked;
+                console.log(notiCheckValue);
+                const data = {
+                    notiCheckStatus : notiCheckValue
+                }
+                axios.get('/admin/notification', {
+                    params : data
+                })
+                .then(function(response) {
+                    console.log(response.data);
+
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+            })
+
             window.Echo.private('booking-message')
             .listen('BookingMessage', (e) => {
                 Toastify({
@@ -59,6 +80,9 @@
                   },
                   onClick: function(){}
                 }).showToast();
+                if(notiCheck.checked === true){
+                    audio.play();
+                }
             });
 
             window.Echo.private('App.Models.User.' + userId.value)
@@ -78,6 +102,10 @@
                   },
                   onClick: function(){}
                 }).showToast();
+                
+                if(notiCheck.checked === true){
+                    audio.play();
+                }
 
                 const notiContainer = document.querySelector('#notiContainer');
                 let data = '';
@@ -184,6 +212,7 @@
         </aside>
         <!-- END MENU SIDEBAR-->
 
+
         <!-- PAGE CONTAINER-->
         <div class="page-container2">
             <!-- HEADER DESKTOP-->
@@ -251,6 +280,14 @@
                                         <div class="account-dropdown__item">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#changePassword">
                                                 <i class="fa-solid fa-lock"></i>Password Change
+                                            </a>
+                                        </div>
+                                        <div class="account-dropdown__item">
+                                            <a href="#">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="noti-check" @if(Auth::user()->notification_sound_enabled === 1) checked @endif>
+                                                    <label class="form-check-label" for="noti-check"> Notification Sound</label>
+                                                </div>
                                             </a>
                                         </div>
                                     </div>
@@ -549,6 +586,11 @@
                 </div>
             </aside>
             <!-- END HEADER DESKTOP-->
+            <div class=" d-none">
+                <audio controls>
+                    <source src="{{ asset('mp3/booking-noti.mp3') }}" type="audio/mpeg">
+                </audio>
+            </div>
         @yield('content')
     </div>
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('type');
             $table->morphs('notifiable');
             $table->text('data');
+            // $table->enum('notification_sound',['0','1'])->default('1');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
