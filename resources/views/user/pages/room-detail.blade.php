@@ -161,10 +161,10 @@
 
                                 <!-- Single Select Box -->
                                 <div class="single-select-box pt-45 mb-30">
-                                    <button type="submit" class="btn select-btn">Book Now</button>
+                                    <button class="btn select-btn" @if(Auth::user() == null) type="button" data-bs-toggle="modal" data-bs-target="#guestUser" @else type="submit" @endif>Book Now</button>
                                 </div>
 
-
+                                @include('user.home.modal');
                             </div>
                         </form>
                     </div>

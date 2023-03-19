@@ -155,10 +155,8 @@
 
                                 <!-- Single Select Box -->
                                 <div class="single-select-box pt-45 mb-30">
-                                    <button type="submit" class="btn select-btn">Book Now</button>
+                                    <button class="btn select-btn" @if(Auth::user() == null) type="button" data-bs-toggle="modal" data-bs-target="#guestUser" @else type="submit" @endif>Book Now</button>
                                 </div>
-
-
                             </div>
                         </form>
                     </div>
@@ -166,6 +164,7 @@
             </div>
         </div>
         <!-- Booking Room End-->
+        @include('user.home.modal');
 
         <!-- Make customer Start-->
         <section class="make-customer-area customar-padding fix">
@@ -219,7 +218,7 @@
 
                             <div class="single-room mb-50">
                                 <div class="room-img">
-                                    <a href="rooms.html"><img src="{{ asset('storage/img/roomTypes/'. $roomType->image) }}" alt=""></a>
+                                    <a href="{{ route('detail.rooms', $roomType->id) }}"><img src="{{ asset('storage/img/roomTypes/'. $roomType->image) }}" alt=""></a>
                                 </div>
                                 <div class="room-caption">
                                     <h3><a href="{{ route('detail.rooms', $roomType->id) }}">{{ $roomType->name }}</a></h3>

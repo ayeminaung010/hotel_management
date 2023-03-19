@@ -41,7 +41,7 @@
 
         <header>
             <!-- Header Start -->
-           <div class="header-area header-sticky">
+           <div class="header-area header-sticky ">
                 <div class="main-header ">
                     <div class="container">
                         <div class="row align-items-center">
@@ -342,7 +342,6 @@
            </div>
            <!-- Footer End-->
        </footer>
-
 
 
 
